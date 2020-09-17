@@ -189,6 +189,7 @@ public class DefaultEntityResolverTest {
 
 	@Test
 	public void resolveNonexistent() {
+		// No SystemId, so it should resolve to null
 		InputSource isrc = null;
 		try {
 			isrc = resolver.resolveEntity("hi", null);
@@ -196,6 +197,17 @@ public class DefaultEntityResolverTest {
 			fail("Should return null, not thow an Exception" + e.getLocalizedMessage());
 		}
 		assertNull(isrc);
+	}
+
+	@Test
+	public void testRegisterNonExistentPathFromSubclass() throws SAXException, IOException {
+		resolver.registerSystemIdFilename("http://www.example.com/some.dtd", "/dtd/example.dtd");
+		try {
+			resolver.resolveEntity(null, "http://www.example.com/some.dtd");
+			fail("Must throw an exception.");
+		} catch (SAXException e) {
+		}
+		classFixture(); // reset the resolver.
 	}
 
 	@Test

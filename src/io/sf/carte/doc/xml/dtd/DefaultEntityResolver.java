@@ -275,6 +275,8 @@ public class DefaultEntityResolver implements EntityResolver2 {
 				if (systemId != null) {
 					isrc.setSystemId(systemId);
 				}
+			} else {
+				throw new SAXException("Could not find resource: " + fname);
 			}
 		} else if (systemId != null) {
 			URL enturl;
