@@ -3,7 +3,6 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <!-- The Basics -->
   <parent>
 	<groupId>io.sf.carte</groupId>
 	<artifactId>css4j-dist</artifactId>
@@ -38,7 +37,6 @@
 		<optional>true</optional>
 	</dependency>
   </dependencies>
-  <!-- Build Settings -->
   <build>
 	<resources>
 		<resource>
@@ -74,4 +72,7 @@
 		<url>https://maven.pkg.github.com/css4j/xml-dtd</url>
 	</repository>
   </distributionManagement>
+  <issueManagement>
+	<url>https://github.com/css4j/xml-dtd/issues</url>
+  </issueManagement>
 </project>
