@@ -19,7 +19,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
-import java.security.AccessControlException;
 import java.security.PrivilegedActionException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -218,6 +217,46 @@ public class DefaultEntityResolver implements EntityResolver2 {
 		return null;
 	}
 
+	/**
+	 * Register an internal classpath filename to retrieve a DTD {@code SystemId}.
+	 * 
+	 * @param systemId the {@code SystemId}.
+	 * @param filename the internal filename.
+	 * @return {@code true} if the new {@code SystemId} was successfully registered,
+	 *         {@code false} if it was already registered.
+	 * @throws IllegalArgumentException if the {@code filename} is considered
+	 *                                  invalid by
+	 *                                  {@link #isInvalidInternalPath(String)}.
+	 */
+	protected boolean registerSystemIdFilename(String systemId, String filename) {
+		if (filename == null || systemId == null) {
+			throw new NullPointerException("Null SystemId or filename.");
+		}
+		if (isInvalidInternalPath(filename)) {
+			throw new IllegalArgumentException("Bad DTD filename.");
+		}
+		String ret;
+		synchronized (systemIdToFilename) {
+			ret = systemIdToFilename.putIfAbsent(systemId, filename);
+		}
+		return ret == null;
+	}
+
+	/**
+	 * Determine if the given pathname is an invalid internal path.
+	 * <p>
+	 * The pathname must contain {@code /dtd/} and be a valid path according to
+	 * {@link #isInvalidPath(String)}.
+	 * </p>
+	 * 
+	 * @param pathname the classpath pathname to check. It is assumed to be
+	 *                 non-{@code null}.
+	 * @return {@code true} if the pathname is invalid.
+	 */
+	protected boolean isInvalidInternalPath(String pathname) {
+		return isInvalidPath(pathname) || !pathname.contains("/dtd/");
+	}
+
 	@Override
 	public final InputSource resolveEntity(String name, String publicId, String baseURI, String systemId)
 			throws SAXException, IOException {
@@ -296,6 +335,15 @@ public class DefaultEntityResolver implements EntityResolver2 {
 		return null;
 	}
 
+	/**
+	 * Determine if the given path is considered invalid for a DTD.
+	 * <p>
+	 * To be valid, must end with {@code .dtd}, {@code .ent} or {@code .mod}.
+	 * </p>
+	 * 
+	 * @param path the path to check.
+	 * @return {@code true} if the path is invalid for a DTD, {@code false} otherwise.
+	 */
 	protected boolean isInvalidPath(String path) {
 		int len = path.length();
 		String ext;
@@ -314,6 +362,9 @@ public class DefaultEntityResolver implements EntityResolver2 {
 
 	/**
 	 * Is the given protocol not supported by this resolver ?
+	 * <p>
+	 * Only {@code http} and {@code https} are valid.
+	 * </p>
 	 * 
 	 * @param protocol
 	 *            the protocol.
@@ -411,8 +462,7 @@ public class DefaultEntityResolver implements EntityResolver2 {
 			buf.append('/').append(pkgPath).append('/').append(dtdFilename);
 			resPath = buf.toString();
 		} else {
-			// All filenames must be relative
-			throw new AccessControlException("Attempt to read " + dtdFilename);
+			resPath = dtdFilename;
 		}
 		InputStream is = java.security.AccessController.doPrivileged(new java.security.PrivilegedAction<InputStream>() {
 			@Override

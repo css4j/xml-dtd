@@ -199,6 +199,30 @@ public class DefaultEntityResolverTest {
 	}
 
 	@Test
+	public void testRegisterInvalidPathFromSubclass() throws SAXException, IOException {
+		try {
+			resolver.registerSystemIdFilename("http://www.example.com/bad.dtd", null);
+			fail("Must throw an exception.");
+		} catch (NullPointerException e) {
+		}
+		try {
+			resolver.registerSystemIdFilename(null, "/some/path");
+			fail("Must throw an exception.");
+		} catch (NullPointerException e) {
+		}
+		try {
+			resolver.registerSystemIdFilename("http://www.example.com/bad.dtd", "");
+			fail("Must throw an exception.");
+		} catch (IllegalArgumentException e) {
+		}
+		try {
+			resolver.registerSystemIdFilename("http://www.example.com/bad.dtd", "/path/to/confidential/stuff");
+			fail("Must throw an exception.");
+		} catch (IllegalArgumentException e) {
+		}
+	}
+
+	@Test
 	public void testIsInvalidPath() throws SAXException, IOException {
 		assertTrue(resolver.isInvalidPath(new URL("http://dtd.example.com/etc/passwd").getPath()));
 		assertTrue(resolver.isInvalidPath(new URL("http://dtd.example.com/etc/passwd#fake.dtd").getPath()));
