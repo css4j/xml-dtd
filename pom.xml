@@ -52,14 +52,6 @@
 			</includes>
 		</resource>
 	</resources>
-	<testResources>
-		<testResource>
-			<directory>${project.basedir}/junit</directory>
-			<excludes>
-				<exclude>**/*.java</exclude>
-			</excludes>
-		</testResource>
-	</testResources>
   </build>
   <scm>
 	<connection>scm:git:https://github.com/css4j/xml-dtd.git</connection>
