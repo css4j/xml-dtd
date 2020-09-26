@@ -38,6 +38,21 @@
 	</dependency>
   </dependencies>
   <build>
+	<plugins>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<executions>
+				<execution>
+					<id>base-compile</id>
+					<configuration>
+						<source>1.7</source>
+						<target>1.7</target>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+	</plugins>
 	<resources>
 		<resource>
 			<directory>${project.build.sourceDirectory}</directory>
