@@ -370,7 +370,16 @@ public class DefaultEntityResolver implements EntityResolver2 {
 				if (con instanceof HttpURLConnection) {
 					((HttpURLConnection) con).disconnect();
 				}
-				throw new SAXException("Invalid url: " + enturl.toExternalForm());
+				String msg = enturl.toExternalForm();
+				if (conType != null) {
+					// Sanitize untrusted content-type by removing control characters
+					// ('Other, Control' unicode category).
+					conType = conType.replaceAll("\\p{Cc}", "*CTRL*");
+					msg = "URL served with invalid type (" + conType + "): " + msg;
+				} else {
+					msg = "URL served with invalid type: " + msg;
+				}
+				throw new SAXException(msg);
 			}
 			isrc = new InputSource();
 			isrc.setSystemId(enturl.toExternalForm());
