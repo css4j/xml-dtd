@@ -511,6 +511,21 @@ public class DefaultEntityResolver implements EntityResolver2 {
 		return resolveEntity(null, publicId, null, systemId);
 	}
 
+	/**
+	 * Resolve the given DTD.
+	 * <p>
+	 * This method is deprecated, use any of the other variants.
+	 * </p>
+	 * 
+	 * @param dtDecl the document type declaration.
+	 * @return an InputSource object describing the new input source to be used by
+	 *         the parser.
+	 * @throws SAXException Any SAX exception, possibly wrapping another exception.
+	 * @throws IOException  indicating a failure to create a new InputStream or
+	 *                      Reader, or an illegal URL.
+	 * @deprecated
+	 */
+	@Deprecated
 	public InputSource resolveEntity(DocumentTypeDeclaration dtDecl) throws SAXException, IOException {
 		return resolveEntity(dtDecl.getName(), dtDecl.getPublicId(), null, dtDecl.getSystemId());
 	}
