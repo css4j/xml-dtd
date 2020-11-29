@@ -173,6 +173,7 @@ public class DefaultEntityResolverTest {
 		re.close();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Test
 	public void resolveEntityDocumentTypeDeclaration() throws SAXException, IOException {
 		InputSource isrc = resolver
