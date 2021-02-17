@@ -13,6 +13,6 @@ module io.sf.carte.xml.dtd {
 
 	requires static io.sf.carte.util;
 	requires static io.sf.carte.tokenproducer;
-	requires static io.sf.jclf;
+	requires static io.sf.jclf.text;
 	requires transitive java.xml;
 }
