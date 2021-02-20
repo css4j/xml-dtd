@@ -210,6 +210,15 @@ public class DefaultEntityResolverTest {
 	}
 
 	@Test
+	public void testRegisterSystemIdFilename() throws SAXException, IOException {
+		assertTrue(resolver.registerSystemIdFilename("http://example.com/dtd/sample.dtd",
+				"/io/sf/carte/doc/xml/dtd/sample.dtd"));
+		InputSource is = resolver.resolveEntity(null, "http://example.com/dtd/sample.dtd");
+		assertNotNull(is);
+		is.getCharacterStream().close();
+	}
+
+	@Test
 	public void testRegisterNonExistentPathFromSubclass() throws SAXException, IOException {
 		resolver.registerSystemIdFilename("http://www.example.com/some.dtd", "/dtd/example.dtd");
 		try {
