@@ -1,0 +1,19 @@
+plugins {
+	id 'css4j.java-conventions'
+}
+
+dependencies {
+	api project(':carte-util')
+	implementation project(':tokenproducer')
+	implementation 'io.sf.jclf:jclf-text:[5.0.0,)'
+}
+
+description = 'xml-dtd'
+
+publishing.publications.maven(MavenPublication).pom {
+	description = "XML DTD utility library"
+}
+
+java {
+	withJavadocJar()
+}
