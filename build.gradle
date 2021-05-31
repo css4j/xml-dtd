@@ -13,7 +13,6 @@ java {
 	registerFeature('dtdecl') {
 		usingSourceSet(sourceSets.main)
 	}
-	withJavadocJar()
 }
 
 dependencies {
