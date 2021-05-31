@@ -1,19 +1,41 @@
 plugins {
-	id 'css4j.java-conventions'
-}
-
-dependencies {
-	api project(':carte-util')
-	implementation 'io.sf.carte:tokenproducer:${tokenproducerVersion}'
-	implementation 'io.sf.jclf:jclf-text:[5.0.0,)'
+	id 'carte.java-conventions'
 }
 
 description = 'xml-dtd'
 
-publishing.publications.maven(MavenPublication).pom {
-	description = "XML DTD utility library"
-}
+version = '3.5.1'
 
 java {
+	registerFeature('dtdparse') {
+		usingSourceSet(sourceSets.main)
+	}
+	registerFeature('dtdecl') {
+		usingSourceSet(sourceSets.main)
+	}
 	withJavadocJar()
+}
+
+dependencies {
+	api 'io.sf.carte:carte-util:3.4.0'
+	dtdparseImplementation 'io.sf.carte:tokenproducer:1.1.1'
+	dtdeclImplementation 'io.sf.jclf:jclf-text:[5.0.0,)'
+	testImplementation "junit:junit:4.13.1"
+}
+
+publishing.publications {
+	maven(MavenPublication) {
+		from(components.java)
+		suppressAllPomMetadataWarnings()
+		pom {
+			description = "XML DTD utility library"
+			url = "https://github.com/css4j/xml-dtd"
+			licenses {
+				license {
+					name = "BSD 3-clause license"
+					url = "https://css4j.github.io/LICENSE.txt"
+				}
+			}
+		}
+	}
 }

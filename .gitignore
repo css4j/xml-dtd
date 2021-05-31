@@ -18,5 +18,5 @@
 *.iws
 
 # Gradle
-/.gradle
-/build/
+**/.gradle
+**/build/
