@@ -173,19 +173,6 @@ public class DefaultEntityResolverTest {
 		re.close();
 	}
 
-	@SuppressWarnings("deprecation")
-	@Test
-	public void resolveEntityDocumentTypeDeclaration() throws SAXException, IOException {
-		InputSource isrc = resolver
-				.resolveEntity(DocumentTypeDeclaration.parse(DocumentTypeDeclaration.XHTML1_TRA_DTDECL));
-		assertNotNull(isrc);
-		assertNotNull(isrc.getPublicId());
-		assertEquals(DocumentTypeDeclaration.XHTML1_TRA_PUBLICID, isrc.getPublicId());
-		Reader re = isrc.getCharacterStream();
-		assertNotNull(re);
-		re.close();
-	}
-
 	@Test
 	public void resolveNonexistentDeclaration() {
 		try {

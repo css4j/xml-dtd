@@ -511,31 +511,26 @@ public class DefaultEntityResolver implements EntityResolver2 {
 		return resolveEntity(null, publicId, null, systemId);
 	}
 
+	public InputSource resolveEntity(DocumentType dtDecl) throws SAXException, IOException {
+		return resolveEntity(dtDecl.getName(), dtDecl.getPublicId(), dtDecl.getBaseURI(), dtDecl.getSystemId());
+	}
+
 	/**
 	 * Resolve the given DTD.
 	 * <p>
 	 * This method is deprecated, use any of the other variants.
 	 * </p>
 	 * 
-	 * @param dtDecl the document type declaration.
+	 * @param documentTypeDeclaration the document type declaration.
 	 * @return an InputSource object describing the new input source to be used by
 	 *         the parser.
 	 * @throws SAXException Any SAX exception, possibly wrapping another exception.
 	 * @throws IOException  indicating a failure to create a new InputStream or
 	 *                      Reader, or an illegal URL.
-	 * @deprecated
 	 */
-	@Deprecated
-	public InputSource resolveEntity(DocumentTypeDeclaration dtDecl) throws SAXException, IOException {
-		return resolveEntity(dtDecl.getName(), dtDecl.getPublicId(), null, dtDecl.getSystemId());
-	}
-
-	public InputSource resolveEntity(DocumentType dtDecl) throws SAXException, IOException {
-		return resolveEntity(dtDecl.getName(), dtDecl.getPublicId(), dtDecl.getBaseURI(), dtDecl.getSystemId());
-	}
-
 	public InputSource resolveEntity(String documentTypeDeclaration) throws SAXException, IOException {
-		return resolveEntity(DocumentTypeDeclaration.parse(documentTypeDeclaration));
+		DocumentTypeDeclaration dtDecl = DocumentTypeDeclaration.parse(documentTypeDeclaration);
+		return resolveEntity(dtDecl.getName(), dtDecl.getPublicId(), null, dtDecl.getSystemId());
 	}
 
 	public void setClassLoader(ClassLoader loader) {
