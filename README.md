@@ -55,7 +55,7 @@ Use:
 
 Before deploying to a remote Maven repository, please read the
 `publishing.repositories.maven` block of
-[carte.java-conventions.gradle](https://github.com/css4j/xml-dtd/blob/master/buildSrc/src/main/groovy/carte.java-conventions.gradle)
+[build.gradle](https://github.com/css4j/xml-dtd/blob/master/build.gradle)
 to learn which properties you need to set (like `mavenReleaseRepoUrl`or
 `mavenRepoUsername`), either at the [command line](https://docs.gradle.org/current/userguide/build_environment.html#sec:project_properties)
 (`-P` option) or your `GRADLE_USER_HOME/gradle.properties` file.
