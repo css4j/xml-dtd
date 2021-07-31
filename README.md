@@ -2,6 +2,9 @@
 
 Utility classes for processing XML DTDs.
 
+- [Javadocs](https://css4j.github.io/api/xml-dtd/3/).
+- [Releases](https://github.com/css4j/xml-dtd/releases).
+
 <br/>
 
 ## Building from source
@@ -20,7 +23,7 @@ from your favourite package manager or by downloading from
 
 ### Building with Gradle
 
-At the xml-dtd sources directory, run `gradlew build` to build. For example:
+At the `xml-dtd` sources directory, run `gradlew build` to build. For example:
 
 ```shell
 git clone https://github.com/css4j/xml-dtd.git
