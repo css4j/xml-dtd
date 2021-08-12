@@ -7,6 +7,12 @@ Utility classes for processing XML DTDs.
 
 <br/>
 
+## Licensing
+
+This software is provided under a [BSD-style license](LICENSE.txt).
+
+<br/>
+
 ## Building from source
 
 ### Requirements

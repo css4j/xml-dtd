@@ -1,0 +1,50 @@
+
+                            XML-DTD RELEASE NOTES
+                            =====================
+
+Release 3.5.2 - August 12, 2021
+-------------------------------
+
+Release Highlights
+------------------
+
+* Deprecate DefaultEntityResolver.resolveEntity(String) for removal.
+
+  See issue #1.
+
+* Build improvements.
+
+  The Gradle build is smaller and a bit faster.
+
+ If you are already using a recent version of this library, do not really need
+to upgrade.
+
+
+Java(tm) Runtime Environment requirements
+-----------------------------------------
+ All the classes in the binary package have been compiled with a Java compiler
+set to 1.8 compiler compliance level, except the module-info file.
+
+ Building the library requires a recent modular JDK (tested with version 16),
+although the resulting jar file can be run with a 1.8 JRE.
+
+
+Software dependencies
+=====================
+
+ The following dependencies are optional, you may need them depending on the
+functionality that you are using:
+
+- The jclf-text (5.0.0 or higher) module:
+  https://sourceforge.net/projects/jclf
+
+- The tokenproducer artifact; version 1.1.1 or higher is recommended:
+  https://github.com/css4j/tokenproducer/releases
+
+- To run the unit tests you need a recent version of JUnit 4.
+
+
+Project Site
+============
+
+ Development site: https://github.com/css4j/xml-dtd
