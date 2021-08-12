@@ -164,6 +164,7 @@ public class DefaultEntityResolverTest {
 
 	@Test
 	public void resolveEntityString() throws SAXException, IOException {
+		@SuppressWarnings("removal")
 		InputSource isrc = resolver.resolveEntity(DocumentTypeDeclaration.XHTML1_TRA_DTDECL);
 		assertNotNull(isrc);
 		assertNotNull(isrc.getPublicId());
@@ -173,6 +174,7 @@ public class DefaultEntityResolverTest {
 		re.close();
 	}
 
+	@SuppressWarnings("removal")
 	@Test
 	public void resolveNonexistentDeclaration() {
 		try {

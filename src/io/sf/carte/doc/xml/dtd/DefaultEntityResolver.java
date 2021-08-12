@@ -516,10 +516,7 @@ public class DefaultEntityResolver implements EntityResolver2 {
 	}
 
 	/**
-	 * Resolve the given DTD.
-	 * <p>
-	 * This method is deprecated, use any of the other variants.
-	 * </p>
+	 * Resolve the given DTD string.
 	 * 
 	 * @param documentTypeDeclaration the document type declaration.
 	 * @return an InputSource object describing the new input source to be used by
@@ -527,7 +524,14 @@ public class DefaultEntityResolver implements EntityResolver2 {
 	 * @throws SAXException Any SAX exception, possibly wrapping another exception.
 	 * @throws IOException  indicating a failure to create a new InputStream or
 	 *                      Reader, or an illegal URL.
+	 * @deprecated This method uses the {@link DocumentTypeDeclaration} type, which
+	 *             carries a dependency with the {@code jclf-text} module, and is
+	 *             going to be removed to make the class a bit lighter. People
+	 *             needing this functionality can always parse the DTD string on
+	 *             their own with {@link DocumentTypeDeclaration#parse(String)} and
+	 *             then call {@link #resolveEntity(String, String, String, String)}.
 	 */
+	@Deprecated(forRemoval=true)
 	public InputSource resolveEntity(String documentTypeDeclaration) throws SAXException, IOException {
 		DocumentTypeDeclaration dtDecl = DocumentTypeDeclaration.parse(documentTypeDeclaration);
 		return resolveEntity(dtDecl.getName(), dtDecl.getPublicId(), null, dtDecl.getSystemId());
