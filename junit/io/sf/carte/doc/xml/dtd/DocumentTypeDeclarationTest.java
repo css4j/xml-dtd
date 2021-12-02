@@ -13,6 +13,7 @@ package io.sf.carte.doc.xml.dtd;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -36,6 +37,7 @@ public class DocumentTypeDeclarationTest {
 		assertEquals("html", dtdecl.getName());
 		assertEquals("-//W3C//DTD XHTML 1.0 Transitional//EN", dtdecl.getPublicId());
 		assertEquals("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd", dtdecl.getSystemId());
+
 		dtdecl = DocumentTypeDeclaration.parse(ContentModelTest.DTD_NONEXISTENT);
 		assertEquals("hi", dtdecl.getName());
 		assertEquals("-//HI//Does not exist//EN", dtdecl.getPublicId());
@@ -49,6 +51,15 @@ public class DocumentTypeDeclarationTest {
 		assertEquals("html", dtdecl.getName());
 		assertEquals("-//W3C//DTD XHTML 1.0 Transitional//EN", dtdecl.getPublicId());
 		assertEquals("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd", dtdecl.getSystemId());
+	}
+
+	@Test
+	public void parseBadDtd() throws SAXException {
+		try {
+			DocumentTypeDeclaration.parse("hi");
+			fail("Must throw exception");
+		} catch (SAXException e) {
+		}
 	}
 
 	@Test

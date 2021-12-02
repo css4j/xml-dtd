@@ -163,27 +163,15 @@ public class DefaultEntityResolverTest {
 	}
 
 	@Test
-	public void resolveEntityString() throws SAXException, IOException {
-		@SuppressWarnings("removal")
-		InputSource isrc = resolver.resolveEntity(DocumentTypeDeclaration.XHTML1_TRA_DTDECL);
+	public void parseAndResolveEntity() throws SAXException, IOException {
+		DocumentTypeDeclaration dtDecl = DocumentTypeDeclaration.parse(DocumentTypeDeclaration.XHTML1_TRA_DTDECL);
+		InputSource isrc = resolver.resolveEntity(dtDecl.getName(), dtDecl.getPublicId(), null, dtDecl.getSystemId());
 		assertNotNull(isrc);
 		assertNotNull(isrc.getPublicId());
 		assertEquals(DocumentTypeDeclaration.XHTML1_TRA_PUBLICID, isrc.getPublicId());
 		Reader re = isrc.getCharacterStream();
 		assertNotNull(re);
 		re.close();
-	}
-
-	@SuppressWarnings("removal")
-	@Test
-	public void resolveNonexistentDeclaration() {
-		try {
-			resolver.resolveEntity("hi");
-			fail("Must throw exception");
-		} catch (SAXException e) {
-		} catch (IOException e) {
-			fail("Should throw SAXException, not IOException");
-		}
 	}
 
 	@Test
