@@ -19,3 +19,5 @@
 # Gradle
 **/.gradle
 **/build/
+
+/CHANGES.txt
