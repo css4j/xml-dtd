@@ -40,6 +40,12 @@ public class ContentModel {
 
 	private static final int DTD_SIZE_LIMIT = 0x100000;
 
+	/**
+	 * Construct a new {@code ContentModel} with the given set of <code>EMPTY</code>
+	 * elements.
+	 * 
+	 * @param emptyElements the set of names of <code>EMPTY</code> elements.
+	 */
 	private ContentModel(Set<String> emptyElements) {
 		super();
 		this.emptyElements = emptyElements;

@@ -322,6 +322,71 @@ public class DefaultEntityResolver implements EntityResolver2 {
 		return ret == null;
 	}
 
+	/**
+	 * Allows applications to map references to external entities into input
+	 * sources.
+	 * <p>
+	 * This method is only called for external entities which have been properly
+	 * declared. It provides more flexibility than the
+	 * {@link org.xml.sax.EntityResolver EntityResolver} interface, supporting
+	 * implementations of more complex catalogue schemes such as the one defined by
+	 * the
+	 * <a href= "http://www.oasis-open.org/committees/entity/spec-2001-08-06.html"
+	 * >OASIS XML Catalogs</a> specification.
+	 * </p>
+	 * <p>
+	 * Parsers configured to use this resolver method will call it to determine the
+	 * input source to use for any external entity being included because of a
+	 * reference in the XML text. That excludes the document entity, and any
+	 * external entity returned by {@link #getExternalSubset getExternalSubset()}.
+	 * When a (non-validating) processor is configured not to include a class of
+	 * entities (parameter or general) through use of feature flags, this method is
+	 * not invoked for such entities.
+	 * </p>
+	 * <p>
+	 * If no valid input source could be determined, this method will throw a
+	 * {@code SAXException} instead of returning {@code null} as other
+	 * implementations would do. If you have to retrieve a DTD which is not directly
+	 * provided by this resolver, you need to whitelist the host using
+	 * {@link #addHostToWhiteList(String)} first. Make sure that either the systemId
+	 * URL ends with a valid extension, or that the retrieved URL was served with a
+	 * valid DTD media type.
+	 * </p>
+	 * <p>
+	 * Note that the entity naming scheme used here is the same one used in the
+	 * {@link org.xml.sax.ext.LexicalHandler LexicalHandler}, or in the
+	 * {@link org.xml.sax.ContentHandler#skippedEntity
+	 * ContentHandler.skippedEntity()} method.
+	 * </p>
+	 * 
+	 * @param name     Identifies the external entity being resolved. Either
+	 *                 "{@code [dtd]}" for the external subset, or a name starting
+	 *                 with "{@code %}" to indicate a parameter entity, or else the
+	 *                 name of a general entity. This is never {@code null} when
+	 *                 invoked by a SAX2 parser.
+	 * @param publicId The public identifier of the external entity being referenced
+	 *                 (normalized as required by the XML specification), or
+	 *                 {@code null} if none was supplied.
+	 * @param baseURI  The URI with respect to which relative systemIDs are
+	 *                 interpreted. This is always an absolute URI, unless it is
+	 *                 {@code null} (likely because the {@code XMLReader} was given
+	 *                 an {@code InputSource} without one). This URI is defined by
+	 *                 the XML specification to be the one associated with the
+	 *                 "{@literal <}" starting the relevant declaration.
+	 * @param systemId The system identifier of the external entity being
+	 *                 referenced; either a relative or absolute URI. This is never
+	 *                 {@code null} when invoked by a SAX2 parser; only declared
+	 *                 entities, and any external subset, are resolved by such
+	 *                 parsers.
+	 * 
+	 * @return an {@code InputSource} object describing the new input source to be
+	 *         used by the parser. This implementation never returns {@code null}.
+	 *
+	 * @throws SAXException        if either the provided arguments or the input
+	 *                             source were invalid or not allowed.
+	 * @throws java.io.IOException if an I/O problem was found while forming the URL
+	 *                             to the input source, or when connecting to it.
+	 */
 	@Override
 	public final InputSource resolveEntity(String name, String publicId, String baseURI, String systemId)
 			throws SAXException, IOException {
@@ -498,15 +563,73 @@ public class DefaultEntityResolver implements EntityResolver2 {
 						|| conType.equals("application/xml-external-parsed-entity"));
 	}
 
+	/**
+	 * Allow the application to resolve external entities.
+	 *
+	 * <p>
+	 * The parser will call this method before opening any external entity except
+	 * the top-level document entity. Such entities include the external DTD subset
+	 * and external parameter entities referenced within the DTD (in either case,
+	 * only if the parser reads external parameter entities), and external general
+	 * entities referenced within the document element (if the parser reads external
+	 * general entities). The application may request that the parser locate the
+	 * entity itself, that it use an alternative URI, or that it use data provided
+	 * by the application (as a character or byte input stream).
+	 * </p>
+	 * <p>
+	 * If no valid input source could be determined, this method will throw a
+	 * {@code SAXException} instead of returning {@code null} as other
+	 * implementations would do. If you have to retrieve a DTD which is not directly
+	 * provided by this resolver, you need to whitelist the host using
+	 * {@link #addHostToWhiteList(String)} first. Make sure that either the systemId
+	 * URL ends with a valid extension, or that the retrieved URL was served with a
+	 * valid DTD media type.
+	 * </p>
+	 * 
+	 * @param publicId The public identifier of the external entity being
+	 *                 referenced, or {@code null} if none was supplied.
+	 * @param systemId The system identifier of the external entity being
+	 *                 referenced.
+	 * @return an {@code InputSource} object describing the new input source. This
+	 *         implementation never returns {@code null}.
+	 * @throws SAXException        if either the provided arguments or the input
+	 *                             source were invalid or not allowed.
+	 * @throws java.io.IOException if an I/O problem was found while forming the URL
+	 *                             to the input source, or when connecting to it.
+	 */
 	@Override
 	public final InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
 		return resolveEntity(null, publicId, null, systemId);
 	}
 
+	/**
+	 * Resolve external entities according to the given {@code DocumentType}.
+	 * <p>
+	 * If no valid input source could be determined, this method will throw a
+	 * {@code SAXException} instead of returning {@code null} as other
+	 * implementations would do. If you have to retrieve a DTD which is not directly
+	 * provided by this resolver, you need to whitelist the host using
+	 * {@link #addHostToWhiteList(String)} first. Make sure that either the systemId
+	 * URL ends with a valid extension, or that the retrieved URL was served with a
+	 * valid DTD media type.
+	 * </p>
+	 * 
+	 * @param dtDecl the {@code DocumentType}.
+	 * @return an {@code InputSource} object describing the new input source.
+	 * @throws SAXException        if either the provided arguments or the input
+	 *                             source were invalid or not allowed.
+	 * @throws java.io.IOException if an I/O problem was found while forming the URL
+	 *                             to the input source, or when connecting to it.
+	 */
 	public InputSource resolveEntity(DocumentType dtDecl) throws SAXException, IOException {
 		return resolveEntity(dtDecl.getName(), dtDecl.getPublicId(), dtDecl.getBaseURI(), dtDecl.getSystemId());
 	}
 
+	/**
+	 * Set the class loader to be used to read the built-in DTDs.
+	 * 
+	 * @param loader the class loader.
+	 */
 	public void setClassLoader(ClassLoader loader) {
 		this.loader = loader;
 	}

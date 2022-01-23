@@ -8,6 +8,10 @@
  * https://css4j.github.io/LICENSE.txt
  *
  */
+
+/**
+ * DTD-related helper classes for XML parsing.
+ */
 module io.sf.carte.xml.dtd {
 	exports io.sf.carte.doc.xml.dtd;
 

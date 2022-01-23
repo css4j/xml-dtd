@@ -37,6 +37,11 @@ public class EntityFinder {
 
 	private static final int DTD_SIZE_LIMIT = 0x100000;
 
+	/**
+	 * Construct a new EntityFinder that uses the given {@code EntityResolver2}.
+	 * 
+	 * @param resolver the resolver to use when resolving the entities.
+	 */
 	public EntityFinder(EntityResolver2 resolver) {
 		super();
 		this.resolver = resolver;
