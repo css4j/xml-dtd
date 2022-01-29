@@ -380,7 +380,8 @@ public class DefaultEntityResolver implements EntityResolver2 {
 	 *                 parsers.
 	 * 
 	 * @return an {@code InputSource} object describing the new input source to be
-	 *         used by the parser. This implementation never returns {@code null}.
+	 *         used by the parser. This implementation never returns {@code null} if
+	 *         {@code systemId} is non-{@code null}.
 	 *
 	 * @throws SAXException        if either the provided arguments or the input
 	 *                             source were invalid or not allowed.
@@ -591,7 +592,8 @@ public class DefaultEntityResolver implements EntityResolver2 {
 	 * @param systemId The system identifier of the external entity being
 	 *                 referenced.
 	 * @return an {@code InputSource} object describing the new input source. This
-	 *         implementation never returns {@code null}.
+	 *         implementation never returns {@code null} if {@code systemId} is
+	 *         non-{@code null}.
 	 * @throws SAXException        if either the provided arguments or the input
 	 *                             source were invalid or not allowed.
 	 * @throws java.io.IOException if an I/O problem was found while forming the URL
