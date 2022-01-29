@@ -45,9 +45,6 @@ public class DefaultEntityResolverTest {
 		Reader re = isrc.getCharacterStream();
 		assertNotNull(re);
 		re.close();
-		//
-		isrc = resolver.getExternalSubset("foo", null);
-		assertNull(isrc);
 		// SVG
 		isrc = resolver.getExternalSubset("svg", null);
 		assertNotNull(isrc);
@@ -56,6 +53,24 @@ public class DefaultEntityResolverTest {
 		re = isrc.getCharacterStream();
 		assertNotNull(re);
 		re.close();
+	}
+
+	@Test
+	public void getExternalSubsetStringStringUnknownSubset() throws SAXException, IOException {
+		InputSource isrc = resolver.getExternalSubset("foo", null);
+		assertNotNull(isrc);
+		assertNull(isrc.getPublicId());
+		assertNull(isrc.getSystemId());
+		Reader re = isrc.getCharacterStream();
+		assertNotNull(re);
+		char[] cbuf = new char[40];
+		try {
+			re.read(cbuf);
+		} finally {
+			re.close();
+		}
+		String sbuf = new String(cbuf);
+		assertEquals("<!ENTITY Tab \"&#x9;\"><!ENTITY NewLine \"&", sbuf);
 	}
 
 	@Test
