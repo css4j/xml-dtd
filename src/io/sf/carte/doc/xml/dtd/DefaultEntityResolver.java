@@ -30,6 +30,7 @@ import org.w3c.dom.DocumentType;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.EntityResolver2;
+import org.xml.sax.ext.LexicalHandler;
 
 import io.sf.carte.util.agent.AgentUtil;
 
@@ -279,8 +280,89 @@ public class DefaultEntityResolver implements EntityResolver2 {
 		}
 	}
 
+	/**
+	 * Allows applications to provide an external subset for documents that don't
+	 * explicitly define one.
+	 * <p>
+	 * Documents with {@code DOCTYPE} declarations that omit an external subset can
+	 * thus augment the declarations available for validation, entity processing,
+	 * and attribute processing (normalization, defaulting, and reporting types
+	 * including {@code ID}). This augmentation is reported through the
+	 * {@link LexicalHandler#startDTD startDTD()} method as if the document text had
+	 * originally included the external subset; this callback is made before any
+	 * internal subset data or errors are reported.
+	 * </p>
+	 * <p>
+	 * This method can also be used with documents that have no {@code DOCTYPE}
+	 * declaration. When the root element is encountered but no {@code DOCTYPE}
+	 * declaration has been seen, this method is invoked. If it returns a value for
+	 * the external subset, that root element is declared to be the root element,
+	 * giving the effect of splicing a {@code DOCTYPE} declaration at the end the
+	 * prolog of a document that could not otherwise be valid. The sequence of
+	 * parser callbacks in that case logically resembles this:
+	 * </p>
+	 * 
+	 * <pre>
+	 * ... comments and PIs from the prolog (as usual)
+	 * startDTD ("rootName", source.getPublicId (), source.getSystemId ());
+	 * startEntity ("[dtd]");
+	 * ... declarations, comments, and PIs from the external subset
+	 * endEntity ("[dtd]");
+	 * endDTD ();
+	 * ... then the rest of the document (as usual)
+	 * startElement (..., "rootName", ...);
+	 * </pre>
+	 *
+	 * <p>
+	 * Note that the {@code InputSource} gets no further resolution. Also, this
+	 * method will never be used by a (non-validating) processor that is not
+	 * including external parameter entities.
+	 * </p>
+	 * <p>
+	 * Uses for this method include facilitating data validation when interoperating
+	 * with XML processors that would always require undesirable network accesses
+	 * for external entities, or which for other reasons adopt a "no DTDs" policy.
+	 * </p>
+	 * <p>
+	 * <strong>Warning:</strong> returning an external subset modifies the input
+	 * document. By providing definitions for general entities, it can make a
+	 * malformed document appear to be well formed.
+	 * </p>
+	 *
+	 * @param name    Identifies the document root element. This name comes from a
+	 *                {@code DOCTYPE} declaration (where available) or from the
+	 *                actual root element.
+	 * @param baseURI The document's base URI, serving as an additional hint for
+	 *                selecting the external subset. This is always an absolute URI,
+	 *                unless it is {@code null} because the {@code XMLReader} was
+	 *                given an {@code InputSource} without one.
+	 *
+	 * @return an {@code InputSource} object describing the new external subset to
+	 *         be used by the parser. If no specific subset could be determined, an
+	 *         input source describing the HTML5 entities is returned.
+	 *
+	 * @throws SAXException        if either the provided arguments or the input
+	 *                             source were invalid or not allowed.
+	 * @throws java.io.IOException if an I/O problem was found while loading the
+	 *                             input source.
+	 */
 	@Override
 	public InputSource getExternalSubset(String name, String baseURI) throws SAXException, IOException {
+		InputSource is = findExternalSubset(name, baseURI);
+		if (is == null) {
+			// Give the HTML5 entities as a fallback
+			String fname = systemIdToFilename.get("https://www.w3.org/TR/html5/entities.dtd");
+			Reader re = dtdLoader.loadDTDfromClasspath(loader, fname);
+			if (re != null) {
+				is = new InputSource(re);
+			} else {
+				throw new IOException("Could not find resource: " + fname);
+			}
+		}
+		return is;
+	}
+
+	private InputSource findExternalSubset(String name, String baseURI) throws SAXException, IOException {
 		InputSource is;
 		if ("html".equalsIgnoreCase(name)) {
 			is = resolveEntity("[dtd]", XHTML1_TRA_PUBLICID, baseURI, XHTML1_TRA_SYSTEMID);
@@ -291,7 +373,6 @@ public class DefaultEntityResolver implements EntityResolver2 {
 			is.setPublicId(null);
 			is.setSystemId(null);
 		} else {
-			// This method can return null safely: there is no SystemId URL to connect to.
 			is = null;
 		}
 		return is;
@@ -374,10 +455,7 @@ public class DefaultEntityResolver implements EntityResolver2 {
 	 *                 the XML specification to be the one associated with the
 	 *                 "{@literal <}" starting the relevant declaration.
 	 * @param systemId The system identifier of the external entity being
-	 *                 referenced; either a relative or absolute URI. This is never
-	 *                 {@code null} when invoked by a SAX2 parser; only declared
-	 *                 entities, and any external subset, are resolved by such
-	 *                 parsers.
+	 *                 referenced; either a relative or absolute URI.
 	 * 
 	 * @return an {@code InputSource} object describing the new input source to be
 	 *         used by the parser. This implementation never returns {@code null} if
@@ -461,7 +539,8 @@ public class DefaultEntityResolver implements EntityResolver2 {
 			InputStream is = con.getInputStream();
 			isrc.setCharacterStream(new InputStreamReader(is, charset));
 		} else {
-			isrc = getExternalSubset(name, baseURI);
+			isrc = findExternalSubset(name, baseURI);
+			// 'isrc' can be null safely: there is no SystemId URL to connect to
 		}
 		return isrc;
 	}
