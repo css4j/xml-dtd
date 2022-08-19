@@ -124,3 +124,6 @@ repository, update the xml-dtd version number in the
 [maven/install-css4j.sh](https://github.com/css4j/css4j-dist/blob/master/maven/install-css4j.sh)
 script. Commit the change, push and look for the completion of that project's
 CI.
+
+14) If there is a [Github milestone](https://github.com/css4j/xml-dtd/milestones)
+about this release, close it.
