@@ -484,6 +484,7 @@ public class DefaultEntityResolver implements EntityResolver2 {
 			systemId = getSystemIdFromPublicId(publicId);
 		}
 		String fname = systemIdToFilename.get(systemId);
+
 		InputSource isrc = null;
 		if (fname != null) {
 			Reader re = dtdLoader.loadDTDfromClasspath(loader, fname);
@@ -511,6 +512,7 @@ public class DefaultEntityResolver implements EntityResolver2 {
 				throw new SAXException(
 						"Whitelist is enabled, and attempted to retrieve data from " + enturl.toExternalForm());
 			}
+
 			boolean invalidPath = isInvalidPath(enturl.getPath());
 			String charset = "UTF-8";
 			URLConnection con = openConnection(enturl);
@@ -523,6 +525,7 @@ public class DefaultEntityResolver implements EntityResolver2 {
 					charset = AgentUtil.findCharset(conType, sepidx + 1);
 				}
 			}
+
 			if (invalidPath && !isValidContentType(conType)) {
 				// Disconnect
 				if (con instanceof HttpURLConnection) {
@@ -539,6 +542,7 @@ public class DefaultEntityResolver implements EntityResolver2 {
 				}
 				throw new SAXException(msg);
 			}
+
 			isrc = new InputSource();
 			isrc.setSystemId(enturl.toExternalForm());
 			if (publicId != null) {
@@ -551,6 +555,7 @@ public class DefaultEntityResolver implements EntityResolver2 {
 			isrc = findExternalSubset(name, baseURI);
 			// 'isrc' can be null safely: there is no SystemId URL to connect to
 		}
+
 		return isrc;
 	}
 
