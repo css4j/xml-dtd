@@ -74,9 +74,11 @@ import io.sf.carte.util.agent.AgentUtil;
  */
 public class DefaultEntityResolver implements EntityResolver2 {
 
-	private final HashMap<String, String> systemIdToFilename = new HashMap<String, String>(64);
+	// The map is sized to have room for one additional mapping
+	// via registerSystemIdFilename
+	private final HashMap<String, String> systemIdToFilename = new HashMap<String, String>(66, 0.4f);
 
-	private final HashMap<String, String> systemIdToPublicId = new HashMap<String, String>(13);
+	private final HashMap<String, String> systemIdToPublicId = new HashMap<String, String>(14);
 
 	private static final DTDLoader dtdLoader = createDTDLoader();
 
@@ -106,155 +108,168 @@ public class DefaultEntityResolver implements EntityResolver2 {
 	 */
 	public DefaultEntityResolver(boolean enableWhitelist) {
 		super();
+
 		systemIdToFilename.put("https://www.w3.org/TR/html5/entities.dtd",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml5.ent");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml5.ent");
 		systemIdToFilename.put("http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml1-strict.dtd");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml1-strict.dtd");
 		systemIdToFilename.put("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml1-transitional.dtd");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml1-transitional.dtd");
 		systemIdToFilename.put("http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml11.dtd");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml11.dtd");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml11.dtd",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml11.dtd");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml11.dtd");
 		systemIdToFilename.put("http://www.w3.org/TR/xhtml11/DTD/xhtml-lat1.ent",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-lat1.ent");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-lat1.ent");
 		systemIdToFilename.put("http://www.w3.org/TR/xhtml11/DTD/xhtml-symbol.ent",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-symbol.ent");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-symbol.ent");
 		systemIdToFilename.put("http://www.w3.org/TR/xhtml11/DTD/xhtml-special.ent",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-special.ent");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-special.ent");
 		// XHTML 1.1 modules
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-inlstyle-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-inlstyle-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-inlstyle-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml11-model-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-11-model-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-11-model-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-datatypes-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-datatypes-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-datatypes-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-framework-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-framework-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-framework-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-text-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-text-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-text-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-hypertext-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-hypertext-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-hypertext-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-list-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-list-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-list-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-edit-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-edit-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-edit-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-bdo-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-bdo-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-bdo-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-ruby-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-ruby-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-ruby-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-pres-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-pres-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-pres-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-link-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-link-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-link-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-meta-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-meta-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-meta-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-base-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-base-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-base-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-script-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-script-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-script-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-style-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-style-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-style-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-image-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-image-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-image-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-csismap-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-csismap-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-csismap-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-ssismap-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-ssismap-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-ssismap-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-param-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-param-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-param-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-object-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-object-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-object-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-table-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-table-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-table-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-form-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-form-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-form-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-legacy-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-legacy-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-legacy-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-struct-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-struct-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-struct-1.mod");
 		// Other common DTDs
 		systemIdToFilename.put("http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml1-frameset.dtd");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml1-frameset.dtd");
 		systemIdToFilename.put("http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-basic11.dtd");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-basic11.dtd");
 		systemIdToFilename.put("http://www.w3.org/TR/html4/strict.dtd",
-				"/io/sf/carte/doc/xml/dtd/w3c/html4-strict.dtd");
+			"/io/sf/carte/doc/xml/dtd/w3c/html4-strict.dtd");
 		systemIdToFilename.put("http://www.w3.org/TR/html4/loose.dtd",
-				"/io/sf/carte/doc/xml/dtd/w3c/html4-loose.dtd");
+			"/io/sf/carte/doc/xml/dtd/w3c/html4-loose.dtd");
 		systemIdToFilename.put("http://www.w3.org/TR/html4/frameset.dtd",
-				"/io/sf/carte/doc/xml/dtd/w3c/html4-frameset.dtd");
+			"/io/sf/carte/doc/xml/dtd/w3c/html4-frameset.dtd");
 		systemIdToFilename.put("http://www.w3.org/Math/DTD/mathml2/mathml2.dtd",
-				"/io/sf/carte/doc/xml/dtd/w3c/mathml2.dtd");
+			"/io/sf/carte/doc/xml/dtd/w3c/mathml2.dtd");
 		systemIdToFilename.put("http://www.w3.org/Math/DTD/mathml1/mathml.dtd",
-				"/io/sf/carte/doc/xml/dtd/w3c/mathml.dtd");
+			"/io/sf/carte/doc/xml/dtd/w3c/mathml.dtd");
 		systemIdToFilename.put("http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-math-svg.dtd");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-math-svg.dtd");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-inlstruct-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-inlstruct-1.dtd");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-inlstruct-1.dtd");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-inlphras-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-inlphras-1.dtd");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-inlphras-1.dtd");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-blkstruct-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-blkstruct-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-blkstruct-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-blkphras-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-blkphras-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-blkphras-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-applet-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-applet-1.dtd");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-applet-1.dtd");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-blkpres-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-blkpres-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-blkpres-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-basic-form-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-basic-form-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-basic-form-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-basic-table-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-basic-table-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-basic-table-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-frames-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-frames-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-frames-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-target-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-target-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-target-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-iframe-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-iframe-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-iframe-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-events-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-events-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-events-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-nameident-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-nameident-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-nameident-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-legacy-redecl-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-legacy-redecl-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-legacy-redecl-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-inlpres-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-inlpres-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-inlpres-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-arch-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-arch-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-arch-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-notations-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-notations-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-notations-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-qname-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-qname-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-qname-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-attribs-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-attribs-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-attribs-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-charent-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-charent-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-charent-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-basic11-model-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-basic11-model-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-basic11-model-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-inputmode-1.mod",
-				"/io/sf/carte/doc/xml/dtd/w3c/xhtml-inputmode-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-inputmode-1.mod");
 		systemIdToFilename.put("http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd",
-				"/io/sf/carte/doc/xml/dtd/w3c/svg11.dtd");
+			"/io/sf/carte/doc/xml/dtd/w3c/svg11.dtd");
+		systemIdToFilename.put("http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd",
+			"/io/sf/carte/doc/xml/dtd/w3c/svg10.dtd");
 		//
-		systemIdToPublicId.put("http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd", "-//W3C//DTD XHTML 1.0 Strict//EN");
+		systemIdToPublicId.put("http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd",
+			"-//W3C//DTD XHTML 1.0 Strict//EN");
 		systemIdToPublicId.put("http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd",
-				"-//W3C//DTD XHTML 1.0 Transitional//EN");
-		systemIdToPublicId.put("http://www.w3.org/MarkUp/DTD/xhtml11.dtd", "-//W3C//DTD XHTML 1.1//EN");
+			"-//W3C//DTD XHTML 1.0 Transitional//EN");
+		systemIdToPublicId.put("http://www.w3.org/MarkUp/DTD/xhtml11.dtd",
+			"-//W3C//DTD XHTML 1.1//EN");
 		systemIdToPublicId.put("http://www.w3.org/TR/xhtml11/DTD/xhtml-lat1.ent",
-				"-//W3C//ENTITIES Latin 1 for XHTML//EN");
+			"-//W3C//ENTITIES Latin 1 for XHTML//EN");
 		systemIdToPublicId.put("http://www.w3.org/TR/xhtml11/DTD/xhtml-symbol.ent",
-				"-//W3C//ENTITIES Symbols for XHTML//EN");
+			"-//W3C//ENTITIES Symbols for XHTML//EN");
 		systemIdToPublicId.put("http://www.w3.org/TR/xhtml11/DTD/xhtml-special.ent",
-				"-//W3C//ENTITIES Special for XHTML//EN");
-		systemIdToPublicId.put("http://www.w3.org/TR/html4/strict.dtd", "-//W3C//DTD HTML 4.01//EN");
-		systemIdToPublicId.put("http://www.w3.org/TR/html4/loose.dtd", "-//W3C//DTD HTML 4.01 Transitional//EN");
-		systemIdToPublicId.put("http://www.w3.org/TR/html4/frameset.dtd", "-//W3C//DTD HTML 4.01 Frameset//EN");
-		systemIdToPublicId.put("http://www.w3.org/Math/DTD/mathml2/mathml2.dtd", "-//W3C//DTD MathML 2.0//EN");
+			"-//W3C//ENTITIES Special for XHTML//EN");
+		systemIdToPublicId.put("http://www.w3.org/TR/html4/strict.dtd",
+			"-//W3C//DTD HTML 4.01//EN");
+		systemIdToPublicId.put("http://www.w3.org/TR/html4/loose.dtd",
+			"-//W3C//DTD HTML 4.01 Transitional//EN");
+		systemIdToPublicId.put("http://www.w3.org/TR/html4/frameset.dtd",
+			"-//W3C//DTD HTML 4.01 Frameset//EN");
+		systemIdToPublicId.put("http://www.w3.org/Math/DTD/mathml2/mathml2.dtd",
+			"-//W3C//DTD MathML 2.0//EN");
 		systemIdToPublicId.put("http://www.w3.org/Math/DTD/mathml1/mathml.dtd", "math");
 		systemIdToPublicId.put("http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd",
-				"-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN");
-		systemIdToPublicId.put("http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd", "-//W3C//DTD SVG 1.1//EN");
+			"-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN");
+		systemIdToPublicId.put("http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd",
+			"-//W3C//DTD SVG 1.1//EN");
+		systemIdToPublicId.put("http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd",
+			"-//W3C//DTD SVG 1.0//EN");
+
 		if (enableWhitelist) {
 			whitelist = new HashSet<String>(1);
 		}

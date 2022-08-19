@@ -118,6 +118,29 @@ public class DefaultEntityResolverTest {
 	}
 
 	@Test
+	public void resolveEntityStringStringSVG11() throws SAXException, IOException {
+		InputSource isrc = resolver.resolveEntity("-//W3C//DTD SVG 1.1//EN", null);
+		assertNotNull(isrc);
+		assertEquals("-//W3C//DTD SVG 1.1//EN", isrc.getPublicId());
+		assertEquals("http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd", isrc.getSystemId());
+		Reader re = isrc.getCharacterStream();
+		assertNotNull(re);
+		re.close();
+	}
+
+	@Test
+	public void resolveEntityStringStringSVG10() throws SAXException, IOException {
+		InputSource isrc = resolver.resolveEntity("-//W3C//DTD SVG 1.0//EN", null);
+		assertNotNull(isrc);
+		assertEquals("-//W3C//DTD SVG 1.0//EN", isrc.getPublicId());
+		assertEquals("http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd",
+			isrc.getSystemId());
+		Reader re = isrc.getCharacterStream();
+		assertNotNull(re);
+		re.close();
+	}
+
+	@Test
 	public void resolveEntityStringStringRemoteDisallow() throws SAXException, IOException {
 		try {
 			resolver.resolveEntity("-//OASIS//DTD DocBook XML V4.5//EN",
