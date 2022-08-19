@@ -86,8 +86,6 @@ public class DefaultEntityResolver implements EntityResolver2 {
 
 	private static final String XHTML1_TRA_PUBLICID = "-//W3C//DTD XHTML 1.0 Transitional//EN";
 	private static final String XHTML1_TRA_SYSTEMID = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd";
-	private static final String SVG11_PUBLICID = "-//W3C//DTD SVG 1.1//EN";
-	private static final String SVG11_SYSTEMID = "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd";
 
 	/**
 	 * Construct a resolver with the whitelist enabled.
@@ -366,10 +364,6 @@ public class DefaultEntityResolver implements EntityResolver2 {
 		InputSource is;
 		if ("html".equalsIgnoreCase(name)) {
 			is = resolveEntity("[dtd]", XHTML1_TRA_PUBLICID, baseURI, XHTML1_TRA_SYSTEMID);
-			is.setPublicId(null);
-			is.setSystemId(null);
-		} else if ("svg".equalsIgnoreCase(name)) {
-			is = resolveEntity("[dtd]", SVG11_PUBLICID, baseURI, SVG11_SYSTEMID);
 			is.setPublicId(null);
 			is.setSystemId(null);
 		} else {
