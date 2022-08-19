@@ -1,28 +1,31 @@
-# xml-dtd version 4.0.0 Release Notes
+# xml-dtd version 4.1.0 Release Notes
 
-### December 3, 2021
+### August 19, 2022
 
 <br/>
 
 ## Highlights
 
-### Removal of DefaultEntityResolver.resolveEntity(String)
+### Use the HTML5 entities as fallback if no subset is found in getExternalSubset
 
-See issue #1.
+See issue #3.
 
-### Use the Security Manager if available
+### Do not assume a specific SVG version for <svg> in getExternalSubset
 
-See issue #2.
+See issue #5.
+
+### Support the DTD for SVG 1.0 in DefaultEntityResolver
+
+See issue #6.
 
 ## Detail of changes
 
-- Remove `DefaultEntityResolver.resolveEntity(String)`. (#1)
-- Use the Security Manager only if available. (#2)
-- Gradle: copy licensing files to `META-INF` directory of archive files.
-- Gradle: line-ending conversion task now warns if file does not exists.
-- Gradle: upgrade wrapper to 7.3.
-- Upgrade to JUnit 4.13.2.
-- Add a 'changes.sh' script to generate a CHANGES.txt.
-- Use Markdown in Release Notes, move non-release information to README.
-- README: add a link to the resolver overview/introduction page.
-- CI: build with Java 11 and 17.
+- Use the HTML5 entities as fallback if no subset is found in getExternalSubset (#3)
+- Do not assume a specific SVG version for <svg> in getExternalSubset (#5)
+- Support the DTD for SVG 1.0 in DefaultEntityResolver (#6)
+- ContentModel: more efficient use of collections.
+- Make inner class static in EntityFinder.
+- DefaultEntityResolver: formatting.
+- A few javadoc improvements.
+- Gradle: upgrade wrapper to 7.5.1.
+- Bump year to 2022 in copyright headers.

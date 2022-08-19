@@ -38,28 +38,21 @@ downloading from [Adoptium](https://adoptium.net/).
 
 ### Building with Gradle
 
-At the `xml-dtd` sources directory, run `gradlew build` to build. For example:
+At the `xml-dtd` sources directory, run `gradlew build` to build:
 
-```shell
-git clone https://github.com/css4j/xml-dtd.git
-cd xml-dtd
-gradlew build
-```
-or
 ```shell
 git clone https://github.com/css4j/xml-dtd.git
 cd xml-dtd
 ./gradlew build
 ```
-on Unix-like shells (where the current directory is generally not in the `PATH`).
 
 <br/>
 
 ### Deploying to a Maven repository
 
 Use:
-- `gradlew build publishToMavenLocal` to install in your local Maven repository.
-- `gradlew publish` to deploy to a (generally remote) Maven repository.
+- `./gradlew build publishToMavenLocal` to install in your local Maven repository.
+- `./gradlew publish` to deploy to a (generally remote) Maven repository.
 
 Before deploying to a remote Maven repository, please read the
 `publishing.repositories.maven` block of
@@ -78,7 +71,7 @@ and optional library packages are the following:
 
 ### Compile-time dependencies
 
-- The [carte-util](https://github.com/css4j/carte-util) library; version 3.5.1
+- The [carte-util](https://github.com/css4j/carte-util) library; version 3.6.0
   or higher is recommended.
 
 - The [jclf-text](https://jclf.sourceforge.io/api/io.sf.jclf.text/module-summary.html)
