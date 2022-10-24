@@ -3,7 +3,7 @@
 Utility classes for processing XML DTDs.
 
 - [Resolver overview](https://css4j.github.io/resolver.html).
-- [Javadocs](https://css4j.github.io/api/xml-dtd/3/).
+- [Javadocs](https://css4j.github.io/api/latest/io.sf.carte.xml.dtd/module-summary.html).
 - [Releases](https://github.com/css4j/xml-dtd/releases).
 
 <br/>
