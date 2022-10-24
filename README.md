@@ -1,3 +1,5 @@
+![CI workflow](https://github.com/css4j/xml-dtd/actions/workflows/build.yml/badge.svg)
+
 # xml-dtd
 
 Utility classes for processing XML DTDs.
