@@ -42,14 +42,14 @@
 <![%xhtml-arch.module;[
 <!ENTITY % xhtml-arch.mod
      PUBLIC "-//W3C//ELEMENTS XHTML Base Architecture 1.0//EN"
-            "xhtml-arch-1.mod" >
+            "http://www.w3.org/MarkUp/DTD/xhtml-arch-1.mod" >
 %xhtml-arch.mod;]]>
 
 <!ENTITY % xhtml-notations.module "INCLUDE" >
 <![%xhtml-notations.module;[
 <!ENTITY % xhtml-notations.mod
      PUBLIC "-//W3C//NOTATIONS XHTML Notations 1.0//EN"
-            "xhtml-notations-1.mod" >
+            "http://www.w3.org/MarkUp/DTD/xhtml-notations-1.mod" >
 %xhtml-notations.mod;]]>
 
 <!-- Datatypes Module ............................................ -->
@@ -57,7 +57,7 @@
 <![%xhtml-datatypes.module;[
 <!ENTITY % xhtml-datatypes.mod
      PUBLIC "-//W3C//ENTITIES XHTML Datatypes 1.0//EN"
-            "xhtml-datatypes-1.mod" >
+            "http://www.w3.org/MarkUp/DTD/xhtml-datatypes-1.mod" >
 %xhtml-datatypes.mod;]]>
 
 <!-- Qualified Names Module ...................................... -->
@@ -65,7 +65,7 @@
 <![%xhtml-qname.module;[
 <!ENTITY % xhtml-qname.mod
      PUBLIC "-//W3C//ENTITIES XHTML Qualified Names 1.0//EN"
-            "xhtml-qname-1.mod" >
+            "http://www.w3.org/MarkUp/DTD/xhtml-qname-1.mod" >
 %xhtml-qname.mod;]]>
 
 <!-- Additional Qualified Names .................................. -->
@@ -93,7 +93,7 @@
 <![%xhtml-events.module;[
 <!ENTITY % xhtml-events.mod
      PUBLIC "-//W3C//ENTITIES XHTML Intrinsic Events 1.0//EN"
-            "xhtml-events-1.mod" >
+            "http://www.w3.org/MarkUp/DTD/xhtml-events-1.mod" >
 %xhtml-events.mod;]]>
 
 <!-- Additional Common Attributes ................................ -->
@@ -111,7 +111,7 @@
 <![%xhtml-attribs.module;[
 <!ENTITY % xhtml-attribs.mod
      PUBLIC "-//W3C//ENTITIES XHTML Common Attributes 1.0//EN"
-            "xhtml-attribs-1.mod" >
+            "http://www.w3.org/MarkUp/DTD/xhtml-attribs-1.mod" >
 %xhtml-attribs.mod;]]>
 
 <!-- placeholder for content model redeclarations -->
@@ -179,7 +179,7 @@
 <![%xhtml-charent.module;[
 <!ENTITY % xhtml-charent.mod
      PUBLIC "-//W3C//ENTITIES XHTML Character Entities 1.0//EN"
-            "xhtml-charent-1.mod" >
+            "http://www.w3.org/MarkUp/DTD/xhtml-charent-1.mod" >
 %xhtml-charent.mod;]]>
 
 <!-- end of xhtml-legacy-redecl-1.mod -->

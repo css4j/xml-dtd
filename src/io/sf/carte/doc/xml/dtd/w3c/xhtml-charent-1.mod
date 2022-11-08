@@ -21,19 +21,8 @@
      including the Latin 1, Symbol and Special character collections.
 -->
 
-<!ENTITY % xhtml-lat1
-    PUBLIC "-//W3C//ENTITIES Latin 1 for XHTML//EN"
-           "xhtml-lat1.ent" >
-%xhtml-lat1;
-
-<!ENTITY % xhtml-symbol
-    PUBLIC "-//W3C//ENTITIES Symbols for XHTML//EN"
-           "xhtml-symbol.ent" >
-%xhtml-symbol;
-
-<!ENTITY % xhtml-special
-    PUBLIC "-//W3C//ENTITIES Special for XHTML//EN"
-           "xhtml-special.ent" >
-%xhtml-special;
+<!ENTITY % HTML5 SYSTEM
+   "https://www.w3.org/TR/html5/entities.dtd">
+%HTML5;
 
 <!-- end of xhtml-charent-1.mod -->

@@ -76,7 +76,7 @@ public class DefaultEntityResolver implements EntityResolver2 {
 
 	// The map is sized to have room for one additional mapping
 	// via registerSystemIdFilename
-	private final HashMap<String, String> systemIdToFilename = new HashMap<String, String>(66, 0.4f);
+	private final HashMap<String, String> systemIdToFilename = new HashMap<String, String>(69, 0.4f);
 
 	private final HashMap<String, String> systemIdToPublicId = new HashMap<String, String>(14);
 
@@ -119,17 +119,24 @@ public class DefaultEntityResolver implements EntityResolver2 {
 			"/io/sf/carte/doc/xml/dtd/w3c/xhtml11.dtd");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml11.dtd",
 			"/io/sf/carte/doc/xml/dtd/w3c/xhtml11.dtd");
+		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-lat1.ent",
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml5.ent");
 		systemIdToFilename.put("http://www.w3.org/TR/xhtml11/DTD/xhtml-lat1.ent",
-			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-lat1.ent");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml5.ent");
+		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-symbol.ent",
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-symbol.ent");
 		systemIdToFilename.put("http://www.w3.org/TR/xhtml11/DTD/xhtml-symbol.ent",
 			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-symbol.ent");
+		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-special.ent",
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-special.ent");
 		systemIdToFilename.put("http://www.w3.org/TR/xhtml11/DTD/xhtml-special.ent",
 			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-special.ent");
+
 		// XHTML 1.1 modules
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-inlstyle-1.mod",
 			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-inlstyle-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml11-model-1.mod",
-			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-11-model-1.mod");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml11-model-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-datatypes-1.mod",
 			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-datatypes-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-framework-1.mod",
@@ -176,6 +183,7 @@ public class DefaultEntityResolver implements EntityResolver2 {
 			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-legacy-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-struct-1.mod",
 			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-struct-1.mod");
+
 		// Other common DTDs
 		systemIdToFilename.put("http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd",
 			"/io/sf/carte/doc/xml/dtd/w3c/xhtml1-frameset.dtd");
@@ -194,9 +202,9 @@ public class DefaultEntityResolver implements EntityResolver2 {
 		systemIdToFilename.put("http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd",
 			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-math-svg.dtd");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-inlstruct-1.mod",
-			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-inlstruct-1.dtd");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-inlstruct-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-inlphras-1.mod",
-			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-inlphras-1.dtd");
+			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-inlphras-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-blkstruct-1.mod",
 			"/io/sf/carte/doc/xml/dtd/w3c/xhtml-blkstruct-1.mod");
 		systemIdToFilename.put("http://www.w3.org/MarkUp/DTD/xhtml-blkphras-1.mod",

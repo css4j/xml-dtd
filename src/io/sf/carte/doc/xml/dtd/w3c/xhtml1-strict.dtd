@@ -16,8 +16,8 @@
    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    SYSTEM "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
 
-   $Revision: 1.1 $
-   $Date: 2002/08/01 13:56:03 $
+   $Revision: 1.27 $
+   $Date: 2009/09/16 14:20:19 $
 
 -->
 
@@ -121,6 +121,7 @@
   ondblclick  a pointer button was double clicked
   onmousedown a pointer button was pressed down
   onmouseup   a pointer button was released
+  onmouseover a pointer was moved over an element
   onmousemove a pointer was moved onto the element
   onmouseout  a pointer was moved away from the element
   onkeypress  a key was pressed and released
@@ -203,7 +204,7 @@
 <!ENTITY % a.content
    "(#PCDATA | %special; | %fontstyle; | %phrase; | %inline.forms; | %misc.inline;)*">
 
-<!-- pre uses %Inline excluding big, small, sup or sup -->
+<!-- pre uses %Inline excluding big, small, sub or sup -->
 
 <!ENTITY % pre.content
    "(#PCDATA | a | %fontstyle; | %phrase; | %special.pre; | %misc.inline;
@@ -639,6 +640,7 @@
   src         %URI;          #REQUIRED
   alt         %Text;         #REQUIRED
   longdesc    %URI;          #IMPLIED
+  name        CDATA          #IMPLIED 
   height      %Length;       #IMPLIED
   width       %Length;       #IMPLIED
   usemap      %URI;          #IMPLIED
@@ -682,6 +684,7 @@
   %attrs;
   action      %URI;          #REQUIRED
   method      (get|post)     "get"
+  name        CDATA          #IMPLIED 
   enctype     %ContentType;  "application/x-www-form-urlencoded"
   onsubmit    %Script;       #IMPLIED
   onreset     %Script;       #IMPLIED
@@ -725,6 +728,7 @@
   src         %URI;          #IMPLIED
   alt         CDATA          #IMPLIED
   usemap      %URI;          #IMPLIED
+  ismap       (ismap)        #IMPLIED
   onselect    %Script;       #IMPLIED
   onchange    %Script;       #IMPLIED
   accept      %ContentTypes; #IMPLIED

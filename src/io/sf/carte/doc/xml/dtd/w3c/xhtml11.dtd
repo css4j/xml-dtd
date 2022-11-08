@@ -122,7 +122,7 @@
 <![%xhtml-datatypes.module;[
 <!ENTITY % xhtml-datatypes.mod
      PUBLIC "-//W3C//ENTITIES XHTML Datatypes 1.0//EN"
-            "xhtml-datatypes-1.mod" >
+            "http://www.w3.org/MarkUp/DTD/xhtml-datatypes-1.mod" >
 %xhtml-datatypes.mod;]]>
 
 <!ENTITY % lang.attrib

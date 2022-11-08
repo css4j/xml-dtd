@@ -21,10 +21,15 @@ import static org.junit.Assert.fail;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
 import java.net.URL;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -105,6 +110,21 @@ public class DefaultEntityResolverTest {
 		Reader re = isrc.getCharacterStream();
 		assertNotNull(re);
 		re.close();
+	}
+
+	@Test
+	public void resolveEntityStringStringXHTML11SystemID() throws Exception {
+		String xhtml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+			+ "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" "
+			+ "\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n"
+			+ "<html><body><p>hello</p></body></html>";
+
+		DocumentBuilderFactory dbFac = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docb = dbFac.newDocumentBuilder();
+		docb.setEntityResolver(new DefaultEntityResolver());
+		InputSource source = new InputSource(new StringReader(xhtml));
+		Document doc = docb.parse(source);
+		assertNotNull(doc);
 	}
 
 	@Test
