@@ -114,8 +114,9 @@ tasks.register('checkLegacyJava') {
 classes.finalizedBy checkLegacyJava
 
 tasks.register('lineEndingConversion', CRLFConvert) {
-	description 'Convert LICENSE.txt to Windows line endings'
+	description 'Convert LICENSE and NOTICE to Windows line endings'
 	file "$rootDir/LICENSE.txt"
+	file "$rootDir/NOTICE.txt"
 }
 
 tasks.register('cleanBuildSrc') {
@@ -147,6 +148,9 @@ tasks.withType(AbstractArchiveTask).configureEach {
 	// Copy license file
 	dependsOn lineEndingConversion
 	from ('LICENSE.txt') {
+		into 'META-INF'
+	}
+	from ('NOTICE.txt') {
 		into 'META-INF'
 	}
 }
