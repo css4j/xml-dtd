@@ -45,7 +45,12 @@ java {
 }
 
 dependencies {
-	api 'io.sf.carte:carte-util:[3.4.0,)'
+	api('io.sf.carte:carte-util') {
+		version {
+			strictly '[3.4.0,)'
+			prefer '3.6.0'
+		}
+	}
 	dtdparseImplementation 'io.sf.carte:tokenproducer:[1.1.1,)'
 	dtdeclImplementation 'io.sf.jclf:jclf-text:[5.0.0,)'
 	testImplementation "junit:junit:4.13.2"
