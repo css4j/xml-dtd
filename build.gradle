@@ -114,9 +114,14 @@ tasks.register('checkLegacyJava') {
 classes.finalizedBy checkLegacyJava
 
 tasks.register('lineEndingConversion', CRLFConvert) {
+	description 'Convert top-level files to Windows line endings'
+	file "$rootDir/RELEASE_NOTES.md"
+}
+
+tasks.register('lineEndingConvCopy', CRLFConvertCopy) {
 	description 'Convert LICENSE and NOTICE to Windows line endings'
-	file "$rootDir/LICENSE.txt"
-	file "$rootDir/NOTICE.txt"
+	from "$rootDir/LICENSE.txt"
+	from "$rootDir/NOTICE.txt"
 }
 
 tasks.register('cleanBuildSrc') {
@@ -146,14 +151,16 @@ tasks.withType(AbstractArchiveTask).configureEach {
 	preserveFileTimestamps = false
 	reproducibleFileOrder = true
 	// Copy license file
-	dependsOn lineEndingConversion
-	from ('LICENSE.txt') {
+	dependsOn lineEndingConvCopy
+	from ("$buildDir/tmp/crlf/LICENSE.txt") {
 		into 'META-INF'
 	}
-	from ('NOTICE.txt') {
+	from ("$buildDir/tmp/crlf/NOTICE.txt") {
 		into 'META-INF'
 	}
 }
+
+build.dependsOn lineEndingConversion
 
 publishing {
 	repositories {
