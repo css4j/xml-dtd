@@ -1,31 +1,27 @@
-# xml-dtd version 4.1.0 Release Notes
+# xml-dtd version 4.1.1 Release Notes
 
-### August 19, 2022
+### November 12, 2022
 
 <br/>
 
 ## Highlights
 
-### Use the HTML5 entities as fallback if no subset is found in getExternalSubset
+### XHTML 1.1 DTD cleanup
 
-See issue #3.
+See issue #8.
 
-### Do not assume a specific SVG version for <svg> in getExternalSubset
+### Remove `final` modifiers from two `DefaultEntityResolver` methods
 
-See issue #5.
-
-### Support the DTD for SVG 1.0 in DefaultEntityResolver
-
-See issue #6.
+See issue #9.
 
 ## Detail of changes
 
-- Use the HTML5 entities as fallback if no subset is found in getExternalSubset (#3)
-- Do not assume a specific SVG version for <svg> in getExternalSubset (#5)
-- Support the DTD for SVG 1.0 in DefaultEntityResolver (#6)
-- ContentModel: more efficient use of collections.
-- Make inner class static in EntityFinder.
-- DefaultEntityResolver: formatting.
-- A few javadoc improvements.
-- Gradle: upgrade wrapper to 7.5.1.
-- Bump year to 2022 in copyright headers.
+- XHTML 1.1 DTD cleanup. See #8
+- Remove `final` modifiers from two `DefaultEntityResolver` methods (#9)
+- Gradle: use a different line conversion procedure to avoid Git glitches
+- Add a Developer Certificate of Origin and a CONTRIBUTING.md file
+- Create a legal NOTICE.txt file
+- README: modify javadocs link to point to modular API
+- README: add CI badge
+- Create dependabot.yml
+- Use carte-util 3.6.0
