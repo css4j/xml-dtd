@@ -15,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -162,25 +163,16 @@ public class DefaultEntityResolverTest {
 
 	@Test
 	public void resolveEntityStringStringRemoteDisallow() throws SAXException, IOException {
-		try {
-			resolver.resolveEntity("-//OASIS//DTD DocBook XML V4.5//EN",
-					"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd");
-			fail("Must throw exception");
-		} catch (SAXException e) {
-		} catch (IOException e) {
-			fail("Should throw SAXException, not IOException");
-		}
+		assertThrows(SAXException.class,
+			() -> resolver.resolveEntity("-//OASIS//DTD DocBook XML V4.5//EN",
+				"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd"));
 	}
 
 	@Test
-	public void resolveEntityStringStringRemoteDisallowConstructor1Arg() throws SAXException, IOException {
-		try {
-			resolver.resolveEntity("-//W3C//DTD SVG 1.1//EN", "https://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd");
-			fail("Must throw exception");
-		} catch (SAXException e) {
-		} catch (IOException e) {
-			fail("Should throw SAXException, not IOException");
-		}
+	public void resolveEntityStringStringRemoteDisallowConstructor1Arg()
+		throws SAXException, IOException {
+		assertThrows(SAXException.class, () -> resolver.resolveEntity("-//W3C//DTD SVG 1.1//EN",
+			"https://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"));
 	}
 
 	@Test
@@ -188,35 +180,28 @@ public class DefaultEntityResolverTest {
 		if (TestConfig.REMOTE_TESTS) {
 			resolver.addHostToWhiteList("www.oasis-open.org");
 			InputSource isrc = resolver.resolveEntity("-//OASIS//DTD DocBook XML V4.5//EN",
-					"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd");
+				"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd");
 			assertNotNull(isrc);
 			assertEquals("-//OASIS//DTD DocBook XML V4.5//EN", isrc.getPublicId());
-			assertEquals("http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd", isrc.getSystemId());
+			assertEquals("http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd",
+				isrc.getSystemId());
 			Reader re = isrc.getCharacterStream();
 			assertNotNull(re);
 			re.close();
 			//
 			resolver.addHostToWhiteList("css4j.github.io");
-			try {
-				resolver.resolveEntity(null, "https://css4j.github.io/");
-				fail("Must throw exception");
-			} catch (SAXException e) {
-			}
-			try {
-				resolver.resolveEntity(null, "https://css4j.github.io/faq.html");
-				fail("Must throw exception");
-			} catch (SAXException e) {
-			}
-			try {
-				resolver.resolveEntity(null, "https://css4j.github.io/foo/badurl");
-				fail("Must throw exception");
-			} catch (SAXException e) {
-			}
-			try {
-				resolver.resolveEntity(null, "https://css4j.github.io/foo/badurl.dtd");
-				fail("Must throw exception");
-			} catch (FileNotFoundException e) {
-			}
+
+			assertThrows(SAXException.class,
+				() -> resolver.resolveEntity(null, "https://css4j.github.io/"));
+
+			assertThrows(SAXException.class,
+				() -> resolver.resolveEntity(null, "https://css4j.github.io/faq.html"));
+
+			assertThrows(SAXException.class,
+				() -> resolver.resolveEntity(null, "https://css4j.github.io/foo/badurl"));
+
+			assertThrows(FileNotFoundException.class,
+				() -> resolver.resolveEntity(null, "https://css4j.github.io/foo/badurl.dtd"));
 		}
 	}
 
@@ -245,6 +230,12 @@ public class DefaultEntityResolverTest {
 	}
 
 	@Test
+	public void resolveJarBomb() {
+		assertThrows(SAXException.class, () -> resolver.resolveEntity("-//W3C//DTD FOO 1.0//EN",
+			"jar:http://www.example.com/evil.jar!/file.dtd"));
+	}
+
+	@Test
 	public void testRegisterSystemIdFilename() throws SAXException, IOException {
 		assertTrue(resolver.registerSystemIdFilename("http://example.com/dtd/sample.dtd",
 				"/io/sf/carte/doc/xml/dtd/sample.dtd"));
@@ -256,36 +247,25 @@ public class DefaultEntityResolverTest {
 	@Test
 	public void testRegisterNonExistentPathFromSubclass() throws SAXException, IOException {
 		resolver.registerSystemIdFilename("http://www.example.com/some.dtd", "/dtd/example.dtd");
-		try {
-			resolver.resolveEntity(null, "http://www.example.com/some.dtd");
-			fail("Must throw an exception.");
-		} catch (SAXException e) {
-		}
+		assertThrows(SAXException.class,
+			() -> resolver.resolveEntity(null, "http://www.example.com/some.dtd"));
 		classFixture(); // reset the resolver.
 	}
 
 	@Test
 	public void testRegisterInvalidPathFromSubclass() throws SAXException, IOException {
-		try {
-			resolver.registerSystemIdFilename("http://www.example.com/bad.dtd", null);
-			fail("Must throw an exception.");
-		} catch (NullPointerException e) {
-		}
-		try {
-			resolver.registerSystemIdFilename(null, "/some/path");
-			fail("Must throw an exception.");
-		} catch (NullPointerException e) {
-		}
-		try {
-			resolver.registerSystemIdFilename("http://www.example.com/bad.dtd", "");
-			fail("Must throw an exception.");
-		} catch (IllegalArgumentException e) {
-		}
-		try {
-			resolver.registerSystemIdFilename("http://www.example.com/bad.dtd", "/path/to/confidential/stuff");
-			fail("Must throw an exception.");
-		} catch (IllegalArgumentException e) {
-		}
+		assertThrows(NullPointerException.class,
+			() -> resolver.registerSystemIdFilename("http://www.example.com/bad.dtd", null));
+
+		assertThrows(NullPointerException.class,
+			() -> resolver.registerSystemIdFilename(null, "/some/path"));
+
+		assertThrows(IllegalArgumentException.class,
+			() -> resolver.registerSystemIdFilename("http://www.example.com/bad.dtd", ""));
+
+		assertThrows(IllegalArgumentException.class,
+			() -> resolver.registerSystemIdFilename("http://www.example.com/bad.dtd",
+				"/path/to/confidential/stuff"));
 	}
 
 	@Test
