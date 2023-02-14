@@ -11,16 +11,16 @@
 
 package io.sf.carte.doc.xml.dtd;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.Reader;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.EntityResolver2;
@@ -29,7 +29,7 @@ public class StackedEntityResolverTest {
 
 	private static EntityResolver2 stackedResolver;
 
-	@BeforeClass
+	@BeforeAll
 	public static void classFixture() {
 		EntityResolver2 firstResolver = new NullEntityResolver();
 		EntityResolver2 fallbackResolver = new DefaultEntityResolver();

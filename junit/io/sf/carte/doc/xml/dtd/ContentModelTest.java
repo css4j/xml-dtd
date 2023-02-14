@@ -11,11 +11,11 @@
 
 package io.sf.carte.doc.xml.dtd;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 
@@ -23,8 +23,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.DocumentType;
 import org.xml.sax.SAXException;
 
@@ -34,7 +34,7 @@ public class ContentModelTest {
 
 	private static ContentModel model;
 
-	@BeforeClass
+	@BeforeAll
 	public static void classFixture() {
 		model = ContentModel.getXHTML1TransitionalModel();
 	}

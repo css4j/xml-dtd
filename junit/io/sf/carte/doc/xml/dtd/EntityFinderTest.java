@@ -11,14 +11,14 @@
 
 package io.sf.carte.doc.xml.dtd;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.util.HashMap;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.EntityResolver2;
 
@@ -27,7 +27,7 @@ public class EntityFinderTest {
 	private static EntityResolver2 resolver;
 	private static EntityFinder finder;
 
-	@BeforeClass
+	@BeforeAll
 	public static void classFixture() {
 		resolver = new DefaultEntityResolver();
 		finder = new EntityFinder(resolver);
