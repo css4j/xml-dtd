@@ -72,6 +72,10 @@ repositories {
 	}
 }
 
+test {
+	useJUnitPlatform()
+}
+
 tasks.compileJava {
 	excludes += ['module-info.java']
 	modularity.inferModulePath = false
