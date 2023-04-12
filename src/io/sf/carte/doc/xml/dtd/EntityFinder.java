@@ -19,9 +19,9 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.EntityResolver2;
 
+import io.sf.carte.uparser.TokenHandler;
 import io.sf.carte.uparser.TokenControl;
 import io.sf.carte.uparser.TokenProducer;
-import io.sf.carte.uparser.util.LegacyTokenHandler;
 
 /**
  * Entity finder.
@@ -68,7 +68,7 @@ public class EntityFinder {
 		return handler.mapCount;
 	}
 
-	private class DTDTokenHandler implements LegacyTokenHandler {
+	private class DTDTokenHandler implements TokenHandler {
 
 		private final Map<Integer, String> codePoint2Entity;
 		private int mapCount = 0;
