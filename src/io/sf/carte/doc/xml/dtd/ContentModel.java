@@ -24,8 +24,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.ext.EntityResolver2;
 
 import io.sf.carte.uparser.TokenControl;
-import io.sf.carte.uparser.TokenHandler;
 import io.sf.carte.uparser.TokenProducer;
+import io.sf.carte.uparser.util.LegacyTokenHandler;
 
 /**
  * XML Content Model information.
@@ -200,7 +200,7 @@ public class ContentModel {
 		return emptyElements.contains(name);
 	}
 
-	private static class DTDTokenHandler implements TokenHandler {
+	private static class DTDTokenHandler implements LegacyTokenHandler {
 
 		private final Set<String> emptySet;
 
