@@ -1,27 +1,28 @@
-# xml-dtd version 4.1.1 Release Notes
+# xml-dtd version 4.2 Release Notes
 
-### November 12, 2022
+### April 17, 2023
 
 <br/>
 
 ## Highlights
 
-### XHTML 1.1 DTD cleanup
+This release is the exact same as 4.1.1, except that it depends on Tokenproducer 2.0.1.
 
-See issue #8.
+### Upgrade to Tokenproducer 2.0.1
 
-### Remove `final` modifiers from two `DefaultEntityResolver` methods
+Tokenproducer 2.0.1 introduces a new base interface but otherwise is the same as 1.2
+(and is source-level compatible with it). Unfortunately the software compiled with 1.2
+cannot figure out that the old `TokenHandler` interface inherits from the new `TokenHandler2`,
+so anything compiled with 1.x is incompatible at runtime with 2.x.
 
-See issue #9.
+If you upgrade to css4j 4.0.1, make sure to upgrade to `xml-dtd` 4.2 as well.
+
+<br/>
 
 ## Detail of changes
 
-- XHTML 1.1 DTD cleanup. See #8
-- Remove `final` modifiers from two `DefaultEntityResolver` methods (#9)
-- Gradle: use a different line conversion procedure to avoid Git glitches
-- Add a Developer Certificate of Origin and a CONTRIBUTING.md file
-- Create a legal NOTICE.txt file
-- README: modify javadocs link to point to modular API
-- README: add CI badge
-- Create dependabot.yml
-- Use carte-util 3.6.0
+- Bump copyright year to 2023.
+- Tests: convert the tests to JUnit 5.
+- Tests: add a jar bomb test.
+- Upgrade to TokenProducer 2.0.1
+- Upgrade Gradle wrapper to 8.1.

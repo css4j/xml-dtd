@@ -7,7 +7,7 @@ group = 'io.sf.carte'
 
 description = 'xml-dtd'
 
-version = '4.1.2-SNAPSHOT'
+version = '4.2'
 
 sourceSets {
 	main {
@@ -51,12 +51,7 @@ dependencies {
 			prefer '3.6.0'
 		}
 	}
-	dtdparseImplementation('io.sf.carte:tokenproducer') {
-		version {
-			strictly '[1.1.2,)'
-			prefer '2.0.1'
-		}
-	}
+	dtdparseImplementation 'io.sf.carte:tokenproducer:[2.0.1,)'
 	dtdeclImplementation 'io.sf.jclf:jclf-text:[5.0.0,)'
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
 }

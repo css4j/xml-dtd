@@ -82,7 +82,7 @@ and optional library packages are the following:
   **It is optional at runtime.**
 
 - The [tokenproducer](https://github.com/css4j/tokenproducer) library; version
-  1.1.1 or higher is recommended.
+  2.0.1 or higher is required.
 
   **It is optional at runtime.**
 
