@@ -54,6 +54,7 @@ dependencies {
 	dtdparseImplementation 'io.sf.carte:tokenproducer:[2.0.1,)'
 	dtdeclImplementation 'io.sf.jclf:jclf-text:[5.0.0,)'
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 repositories {
