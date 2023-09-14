@@ -34,7 +34,7 @@ import io.sf.carte.uparser.TokenProducer;
  */
 public class ContentModel {
 
-	private static final Map<String, ContentModel> contentModelMap = new HashMap<String, ContentModel>();
+	private static final Map<String, ContentModel> contentModelMap = new HashMap<>();
 
 	private final Set<String> emptyElements;
 
@@ -69,7 +69,7 @@ public class ContentModel {
 			throw new IllegalArgumentException("Unable to resolve declaration " + docType.toString());
 		}
 		Set<String> empty = parseDTD(isrc.getCharacterStream());
-		HashSet<String> emptyElementSet = new HashSet<String>(empty);
+		HashSet<String> emptyElementSet = new HashSet<>(empty);
 		empty.clear();
 		return emptyElementSet;
 	}
@@ -92,13 +92,13 @@ public class ContentModel {
 			throw new IllegalArgumentException("Unable to resolve declaration " + dtDecl.toString());
 		}
 		Set<String> empty = parseDTD(isrc.getCharacterStream());
-		HashSet<String> emptyElementSet = new HashSet<String>(empty);
+		HashSet<String> emptyElementSet = new HashSet<>(empty);
 		empty.clear();
 		return emptyElementSet;
 	}
 
 	private static Set<String> parseDTD(Reader reader) throws IOException {
-		Set<String> emptyelmSet = new HashSet<String>(32);
+		Set<String> emptyelmSet = new HashSet<>(32);
 		DTDTokenHandler handler = new DTDTokenHandler(emptyelmSet);
 		int[] allowInWords = { '<', '!' };
 		TokenProducer tp = new TokenProducer(handler, allowInWords, DTD_SIZE_LIMIT);

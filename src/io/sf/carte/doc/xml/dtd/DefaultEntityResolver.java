@@ -76,9 +76,9 @@ public class DefaultEntityResolver implements EntityResolver2 {
 
 	// The map is sized to have room for one additional mapping
 	// via registerSystemIdFilename
-	private final HashMap<String, String> systemIdToFilename = new HashMap<String, String>(69, 0.4f);
+	private final HashMap<String, String> systemIdToFilename = new HashMap<>(69, 0.4f);
 
-	private final HashMap<String, String> systemIdToPublicId = new HashMap<String, String>(14);
+	private final HashMap<String, String> systemIdToPublicId = new HashMap<>(14);
 
 	private static final DTDLoader dtdLoader = createDTDLoader();
 
@@ -279,7 +279,7 @@ public class DefaultEntityResolver implements EntityResolver2 {
 			"-//W3C//DTD SVG 1.0//EN");
 
 		if (enableWhitelist) {
-			whitelist = new HashSet<String>(1);
+			whitelist = new HashSet<>(1);
 		}
 	}
 
@@ -295,7 +295,7 @@ public class DefaultEntityResolver implements EntityResolver2 {
 	public void addHostToWhiteList(String fqdn) {
 		if (fqdn != null) {
 			if (whitelist == null) {
-				whitelist = new HashSet<String>(4);
+				whitelist = new HashSet<>(4);
 			}
 			whitelist.add(fqdn.toLowerCase(Locale.ROOT));
 		}

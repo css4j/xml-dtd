@@ -35,7 +35,7 @@ public class EntityFinderTest {
 
 	@Test
 	public void testFindEntities() throws SAXException, IOException {
-		HashMap<Integer, String> cp2e = new HashMap<Integer, String>();
+		HashMap<Integer, String> cp2e = new HashMap<>();
 		cp2e.put(237, null);
 		Reader re = resolver.resolveEntity("-//W3C//DTD XHTML 1.0 Transitional//EN",
 				"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd").getCharacterStream();
