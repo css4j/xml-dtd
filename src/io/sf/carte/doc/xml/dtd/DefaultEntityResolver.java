@@ -22,7 +22,6 @@ import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map.Entry;
 
@@ -568,9 +567,7 @@ public class DefaultEntityResolver implements EntityResolver2 {
 	}
 
 	private String getSystemIdFromPublicId(String publicId) {
-		Iterator<Entry<String, String>> it = systemIdToPublicId.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<String, String> entry = it.next();
+		for (Entry<String, String> entry : systemIdToPublicId.entrySet()) {
 			if (publicId.equals(entry.getValue())) {
 				return entry.getKey();
 			}
