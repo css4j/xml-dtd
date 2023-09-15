@@ -7,7 +7,7 @@ group = 'io.sf.carte'
 
 description = 'xml-dtd'
 
-version = '4.2.1'
+version = '4.2.2-SNAPSHOT'
 
 sourceSets {
 	main {
