@@ -10,6 +10,18 @@ Utility classes for processing XML DTDs.
 
 <br/>
 
+## Modifications to W3C DTDs
+
+The W3C DTDs distributed with this software have been modified so the "Character
+mnemonic entities" section of the DTDs was replaced with the HTML5 entities, for
+better interoperability of XHTML 1.x and 5.
+
+Also, the relative URLs used to reference DTD modules have been absolutized as
+needed, so they can be used with different base URLs. For context, see
+https://www.w3.org/MarkUp/2009/xhtml11-issues-20090525.html#ssec4
+
+<br/>
+
 ## Licensing
 
 This software is provided under a [BSD-style license](LICENSE.txt).
