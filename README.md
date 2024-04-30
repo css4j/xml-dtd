@@ -52,7 +52,7 @@ downloading from [Adoptium](https://adoptium.net/).
 
 ### Building with Gradle
 
-At the `xml-dtd` sources directory, run `gradlew build` to build:
+At the `xml-dtd` sources directory, run `./gradlew build` to build:
 
 ```shell
 git clone https://github.com/css4j/xml-dtd.git
@@ -65,7 +65,7 @@ cd xml-dtd
 ### Deploying to a Maven repository
 
 Use:
-- `./gradlew build publishToMavenLocal` to install in your local Maven repository.
+- `./gradlew publishToMavenLocal` to install in your local Maven repository.
 - `./gradlew publish` to deploy to a (generally remote) Maven repository.
 
 Before deploying to a remote Maven repository, please read the
@@ -94,7 +94,7 @@ and optional library packages are the following:
   **It is optional at runtime.**
 
 - The [tokenproducer](https://github.com/css4j/tokenproducer) library; version
-  2.0.1 or higher is required.
+  3.0 or higher is required.
 
   **It is optional at runtime.**
 
