@@ -125,7 +125,7 @@ public class StackedEntityResolverTest {
 	@Test
 	public void resolveEntityStringStringRemoteDisallowConstructor1Arg() throws SAXException, IOException {
 		try {
-			stackedResolver.resolveEntity("-//W3C//DTD SVG 1.1//EN",
+			stackedResolver.resolveEntity("-//W3C//DTD SVG 0.9//EN",
 					"https://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd");
 			fail("Must throw exception");
 		} catch (SAXException e) {
