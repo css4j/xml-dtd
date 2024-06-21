@@ -492,6 +492,15 @@ public class DefaultEntityResolver implements EntityResolver2 {
 		}
 		String fname = systemIdToFilename.get(systemId);
 
+		if (fname == null && publicId != null) {
+			// Attempt to get a known DTD by Public ID
+			String knownSystemId = getSystemIdFromPublicId(publicId);
+			if (knownSystemId != null) {
+				fname = systemIdToFilename.get(knownSystemId);
+				systemId = knownSystemId;
+			}
+		}
+
 		InputSource isrc = null;
 		if (fname != null) {
 			Reader re = dtdLoader.loadDTDfromClasspath(loader, fname);

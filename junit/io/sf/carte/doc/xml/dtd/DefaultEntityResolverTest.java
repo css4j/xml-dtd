@@ -162,6 +162,19 @@ public class DefaultEntityResolverTest {
 	}
 
 	@Test
+	public void resolveEntityStringStringSVG10_WrongSystemID() throws SAXException, IOException {
+		InputSource isrc = resolver.resolveEntity("-//W3C//DTD SVG 1.0//EN",
+				"http://www.w3.org/TR/SVG/DTD/svg10.dtd");
+		assertNotNull(isrc);
+		assertEquals("-//W3C//DTD SVG 1.0//EN", isrc.getPublicId());
+		assertEquals("http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd",
+				isrc.getSystemId());
+		Reader re = isrc.getCharacterStream();
+		assertNotNull(re);
+		re.close();
+	}
+
+	@Test
 	public void resolveEntityStringStringRemoteDisallow() throws SAXException, IOException {
 		assertThrows(SAXException.class,
 			() -> resolver.resolveEntity("-//OASIS//DTD DocBook XML V4.5//EN",
@@ -171,7 +184,7 @@ public class DefaultEntityResolverTest {
 	@Test
 	public void resolveEntityStringStringRemoteDisallowConstructor1Arg()
 		throws SAXException, IOException {
-		assertThrows(SAXException.class, () -> resolver.resolveEntity("-//W3C//DTD SVG 1.1//EN",
+		assertThrows(SAXException.class, () -> resolver.resolveEntity("-//W3C//DTD SVG 0.9//EN",
 			"https://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"));
 	}
 
