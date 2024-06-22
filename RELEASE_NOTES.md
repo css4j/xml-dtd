@@ -1,28 +1,26 @@
-# xml-dtd version 4.2 Release Notes
+# xml-dtd version 4.3 Release Notes
 
-### April 17, 2023
+### June 22, 2024
 
 <br/>
 
 ## Highlights
 
-This release is the exact same as 4.1.1, except that it depends on Tokenproducer 2.0.1.
-
-### Upgrade to Tokenproducer 2.0.1
-
-Tokenproducer 2.0.1 introduces a new base interface but otherwise is the same as 1.2
-(and is source-level compatible with it). Unfortunately the software compiled with 1.2
-cannot figure out that the old `TokenHandler` interface inherits from the new `TokenHandler2`,
-so anything compiled with 1.x is incompatible at runtime with 2.x.
-
-If you upgrade to css4j 4.0.1, make sure to upgrade to `xml-dtd` 4.2 as well.
+As a last resort, the resolver now attempts to get a known System ID when the
+supplied System ID is unknown but the Public ID is known.
 
 <br/>
 
 ## Detail of changes
 
-- Bump copyright year to 2023.
-- Tests: convert the tests to JUnit 5.
-- Tests: add a jar bomb test.
-- Upgrade to TokenProducer 2.0.1
-- Upgrade Gradle wrapper to 8.1.
+- resolver: attempt to get a known System ID when the supplied System ID is
+  unknown but the Public ID is known.
+- Add scm section to Maven POM data.
+- Bump copyright year to 2024.
+- Upgrade to actions/setup-java v4.
+- Upgrade to JUnit 5.10.2.
+- Bump github/codeql-action from 2 to 3.
+- Upgrade Gradle wrapper to 8.5.
+- Actions: switch to gradle/actions/wrapper-validation.
+- A few modifications to README.
+- Default to Linux line endings for source files.
