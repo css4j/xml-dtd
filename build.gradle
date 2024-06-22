@@ -1,3 +1,16 @@
+/*
+
+ Copyright (c) 2021-2024, Carlos Amengual.
+
+ Licensed under a BSD-style License. You can find the license here:
+ https://raw.githubusercontent.com/css4j/xml-dtd/master/LICENSE.txt
+
+ */
+ 
+ /*
+  * SPDX-License-Identifier: BSD-3-Clause
+  */
+
 plugins {
 	id 'java-library'
 	id 'maven-publish'
