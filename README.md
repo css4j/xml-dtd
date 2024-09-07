@@ -77,6 +77,40 @@ to learn which properties you need to set (like `mavenReleaseRepoUrl`or
 
 <br/>
 
+## Usage from a Gradle project
+
+If your Gradle project depends on xml-dtd, you can use this project's own Maven
+repository in a `repositories` section of your build file:
+
+```groovy
+repositories {
+    maven {
+        url "https://css4j.github.io/maven/"
+        mavenContent {
+            releasesOnly()
+        }
+        content {
+            // Include io.sf.carte as well as other groups under io.sf
+            includeGroupByRegex 'io\\.sf\\..*'
+
+            // Alternative to the regex:
+            //includeGroup 'io.sf.carte'
+        }
+    }
+}
+```
+please use that repository only for the artifact groups that it supplies.
+
+Then, in your `build.gradle` file you can list the dependencies, for example:
+
+```groovy
+dependencies {
+    api 'io.sf.carte:xml-dtd:4.3'
+}
+```
+
+<br/>
+
 ## Software dependencies
 
 In case that you do not use a Gradle or Maven build (which would manage the

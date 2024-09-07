@@ -26,19 +26,20 @@ For reference, let your copy of the xml-dtd release code be at
 `/path/to/xml-dtd`.
 
 2) Use `changes.sh <new-version>` to create a `CHANGES.txt` file with the
-changes from the latest tag. For example if you are releasing `4.2.1`:
+changes from the latest tag. For example if you are releasing `4.3.1`:
 
 ```shell
 cd /path/to/xml-dtd
-./changes.sh 4.2.1
+./changes.sh 4.3.1
 ```
 
 Edit the resulting `CHANGES.txt` as convenient, to use it as the basis for the
 detailed list of changes when you fill the `RELEASE_NOTES.md` and the new
 release in Github.
 
-Complete the Release Notes and check whether the dependencies mentioned in the
-`README.md` are correct. Commit the changes.
+Complete the Release Notes and update the version in the Gradle example of
+`README.md`, also check whether the dependencies mentioned there are correct.
+Commit the changes.
 
 3) Bump the `version` in the [`build.gradle`](build.gradle) file or remove the
 `-SNAPSHOT` suffix as necessary. Commit and push all the changes to the Git
@@ -87,7 +88,7 @@ mv /path/to/css4j-dist/build/docs/javadoc/* /path/to/css4j.github.io/api/latest
 ```
 
 If the changes to the `css4j.github.io` repo look correct, commit them with a
-description like "Latest modular Javadocs after xml-dtd 4.2.1" and push.
+description like "Latest modular Javadocs after xml-dtd 4.3.1" and push.
 
 Check whether the ["Examples" CI](https://github.com/css4j/css4j.github.io/actions/workflows/examples.yml)
 triggered by that commit to the `css4j.github.io` repository completed
@@ -98,8 +99,8 @@ for example.
 
 ```shell
 cd /path/to/xml-dtd
-git tag -s v4.2.1 -m "Release 4.2.1"
-git push origin v4.2.1
+git tag -s v4.3.1 -m "Release 4.3.1"
+git push origin v4.3.1
 ```
 
 or `git tag -a` instead of `-s` if you do not plan to sign the tag. But it is
