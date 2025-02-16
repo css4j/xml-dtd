@@ -1,6 +1,6 @@
 /*
 
- Copyright (c) 2021-2024, Carlos Amengual.
+ Copyright (c) 2021-2025, Carlos Amengual.
 
  Licensed under a BSD-style License. You can find the license here:
  https://raw.githubusercontent.com/css4j/xml-dtd/master/LICENSE.txt
@@ -75,7 +75,7 @@ repositories {
 		url = uri('https://repo.maven.apache.org/maven2/')
 	}
 	maven {
-		url "https://css4j.github.io/maven/"
+		url = "https://css4j.github.io/maven/"
 		mavenContent {
 			releasesOnly()
 		}
