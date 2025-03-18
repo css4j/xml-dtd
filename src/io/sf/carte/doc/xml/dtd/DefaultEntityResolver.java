@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.lang.reflect.Constructor;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -79,7 +78,7 @@ public class DefaultEntityResolver implements EntityResolver2 {
 
 	private final HashMap<String, String> systemIdToPublicId = new HashMap<>(14);
 
-	private static final DTDLoader dtdLoader = createDTDLoader();
+	private static final DTDLoader dtdLoader = new SimpleDTDLoader();
 
 	private ClassLoader loader = null;
 
@@ -743,19 +742,7 @@ public class DefaultEntityResolver implements EntityResolver2 {
 		this.loader = loader;
 	}
 
-	private static DTDLoader createDTDLoader() {
-		DTDLoader loader;
-		try {
-			Class<?> cl = Class.forName("io.sf.carte.doc.xml.dtd.SMDTDLoader");
-			Constructor<?> ctor = cl.getConstructor();
-			loader = (DTDLoader) ctor.newInstance();
-		} catch (Exception e) {
-			loader = new SimpleDTDLoader();
-		}
-		return loader;
-	}
-
-	abstract static class DTDLoader {
+	interface DTDLoader {
 		abstract void connect(URLConnection con) throws IOException;
 		abstract Reader loadDTDfromClasspath(ClassLoader loader, String dtdFilename);
 	}
@@ -763,15 +750,15 @@ public class DefaultEntityResolver implements EntityResolver2 {
 	/**
 	 * Load DTDs without a Security Manager.
 	 */
-	private static class SimpleDTDLoader extends DTDLoader {
+	private static class SimpleDTDLoader implements DTDLoader {
 
 		@Override
-		void connect(final URLConnection con) throws IOException {
+		public void connect(final URLConnection con) throws IOException {
 			con.connect();
 		}
 
 		@Override
-		Reader loadDTDfromClasspath(final ClassLoader loader, final String dtdFilename) {
+		public Reader loadDTDfromClasspath(final ClassLoader loader, final String dtdFilename) {
 			InputStream is;
 			if (loader != null) {
 				is = loader.getResourceAsStream(dtdFilename);
