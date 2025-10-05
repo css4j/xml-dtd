@@ -132,6 +132,17 @@ tasks.register('checkLegacyJava') {
 
 classes.finalizedBy checkLegacyJava
 
+tasks.register('testOn8', Test) {
+	description = 'Runs tests on Java 8'
+	dependsOn classes
+	testClassesDirs = testing.suites.test.sources.output.classesDirs
+	classpath = testing.suites.test.sources.runtimeClasspath
+	useJUnitPlatform()
+	javaLauncher = javaToolchains.launcherFor {
+		languageVersion = JavaLanguageVersion.of(8)
+	}
+}
+
 tasks.register('lineEndingConversion', CRLFConvert) {
 	description = 'Convert top-level files to Windows line endings'
 	file "$rootDir/RELEASE_NOTES.md"
