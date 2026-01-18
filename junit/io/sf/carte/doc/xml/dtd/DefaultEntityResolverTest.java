@@ -8,7 +8,7 @@
  */
 /*
   SPDX-License-Identifier: BSD-3-Clause OR BSD-2-Clause OR LGPL-2.1-or-later OR
-   GPL-2.0-or-later
+   GPL-2.0-with-classpath-exception
  */
 
 package io.sf.carte.doc.xml.dtd;
