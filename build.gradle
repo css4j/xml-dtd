@@ -62,7 +62,7 @@ dependencies {
 			prefer '3.7'
 		}
 	}
-	dtdparseImplementation 'io.sf.carte:tokenproducer:[3.0,)'
+	dtdparseImplementation 'io.sf.carte:tokenproducer:[3.2,)'
 	dtdeclImplementation 'io.sf.jclf:jclf-text:[5.0.3,)'
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.14.4'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
